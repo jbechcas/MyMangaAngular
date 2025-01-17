@@ -1,43 +1,59 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Iniciar Sesión</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content [fullscreen]="true" scrollY="true">
   <div class="login-container">
-    
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <ion-grid>
         <ion-row>
           <ion-col style="display:flex" class="ion-justify-content-center">
-            <ion-text><h1>Iniciar sesión</h1></ion-text>
+            <img src="assets/img/banner.png" alt="Logo MyManga" class="logo-image">
           </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-grid>
-        <ion-row>
-          <ion-col style="display:flex" class="ion-justify-content-center ion-align-items-center">
-            ¿No tienes cuenta?<ion-button style="text-transform:none" (click)="onRegister()" fill="clear">Regístrate</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <ion-item>
-        <ion-input labelPlacement="floating" label="Email" type="email" formControlName="email" required></ion-input>
+      
+      <ion-item class="rounded-item">
+        <ion-input 
+          labelPlacement="floating" 
+          label="Email" 
+          type="email" 
+          formControlName="email" 
+          required>
+        </ion-input>
       </ion-item>
-      <ion-item>
-        <ion-input labelPlacement="floating" label="Contraseña" type="password" formControlName="password" required></ion-input>
+      
+      <ion-item class="rounded-item">
+        <ion-input 
+          labelPlacement="floating" 
+          label="Contraseña" 
+          type="password" 
+          formControlName="password" 
+          required>
+        </ion-input>
       </ion-item>
+      
       <ion-text class="input-error" color="danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
         <p *ngIf="email?.errors?.['required']">*Debe introducir un email</p>
         <p *ngIf="email?.errors?.['email']">*Debe introducir un email correcto</p>
       </ion-text>
+      
       <ion-text class="input-error" color="danger" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
         <p *ngIf="password?.errors?.['required']">*Debe introducir una contraseña</p>
       </ion-text>
-      <ion-button style="text-transform:none" expand="block" type="submit" [disabled]="loginForm.invalid">
+      
+      <ion-button expand="block" type="submit" [disabled]="loginForm.invalid" class="submit-button">
         Iniciar sesión
       </ion-button>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <a (click)="onRegister()" class="register-link">
+              ¿No tienes cuenta?
+            </a>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </form>
   </div>
 </ion-content>
+
+

@@ -18,12 +18,13 @@ export class RegisterPage {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute,
-    private authSvc: BaseAuthenticationService,
-    private peopleSvc: PeopleService
+    private route:ActivatedRoute,
+    private authSvc:BaseAuthenticationService,
+    private peopleSvc:PeopleService
   ) {
     this.registerForm = this.fb.group({
-      user: ['', [Validators.required, Validators.minLength(2)]],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      surname: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, passwordValidator]],
       confirmPassword: ['', [Validators.required]]
@@ -34,7 +35,7 @@ export class RegisterPage {
   onSubmit() {
     if (this.registerForm.valid) {
       this.authSvc.signUp(this.registerForm.value).subscribe({
-        next: (resp: User) => {
+        next: (resp:User) => {
           const userData = {
             ...this.registerForm.value,
             userId: resp.id.toString()
@@ -57,24 +58,29 @@ export class RegisterPage {
     }
   }
 
-  onLogin() {
+  onLogin(){
     this.registerForm.reset();
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
-    this.router.navigate(['/login'], { queryParams: { returnUrl: returnUrl }, replaceUrl: true });
+    this.router.navigate(['/login'], {queryParams:{ returnUrl:returnUrl}, replaceUrl:true});
   }
 
-  get user() {
-    return this.registerForm.controls['user'];
+  get name(){
+    return this.registerForm.controls['name'];
   }
-  get email() {
+
+  get surname(){
+    return this.registerForm.controls['surname'];
+  }
+
+  get email(){
     return this.registerForm.controls['email'];
   }
 
-  get password() {
+  get password(){
     return this.registerForm.controls['password'];
   }
 
-  get confirmPassword() {
+  get confirmPassword(){
     return this.registerForm.controls['confirmPassword'];
   }
 

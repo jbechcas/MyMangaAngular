@@ -1,31 +1,54 @@
-div.register-container {
-    display: flex;
-    flex-direction: column; 
-    justify-content: flex-start;
-    align-items: center;
-    height: 100%;
-    padding: 16px; /* Espaciado para evitar bordes ajustados */
-    overflow-y: auto; /* Permitir scroll vertical si el contenido crece */
-  }
-  
-  form {
-    width: 100%;
-    max-width: 400px;
-    height:100%;
-    margin:1em;
-  }
-  
-  .error {
-    color: red;
-    font-size: 12px;
-    margin-top: -8px;
-    margin-bottom: 8px;
-  }
-  ion-item{
-    margin-bottom:10px;
-  }
-  ion-text.input-error{
-    margin-top:-10px;
-  }
-  
-  
+div.login-container {
+  display: flex;
+  flex-direction: column; 
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  padding: 16px; /* Espaciado para evitar bordes ajustados */
+  overflow-y: auto; /* Permitir scroll vertical si el contenido crece */
+}
+
+form {
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+ion-item {
+  margin-bottom: 10px;
+}
+
+ion-text.input-error {
+  margin-top: -10px;
+}
+
+.rounded-item {
+  --border-radius: 20px;
+  --border-width: 2px; /* Grosor del borde */
+  --border-color: rgba(255, 255, 255, 0.288); /* Color del borde */
+  --background: none; /* Sin fondo por defecto */
+  margin-bottom: 16px; /* Espaciado inferior */
+}
+
+.rounded-item:hover {
+  --border-color: rgb(164, 198, 243); /* Resalta el borde en hover */
+}
+
+.submit-button {
+  --border-radius: 20px;
+  --background: linear-gradient(45deg, #2365a3, #368fe2);
+  --background-hover: linear-gradient(45deg, #368fe2, #2365a3);
+}
+
+.logo-image {
+  width: 300px;
+  height: auto;
+  margin-top: 0px;
+}

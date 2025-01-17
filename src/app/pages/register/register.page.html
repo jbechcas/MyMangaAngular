@@ -1,63 +1,55 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-title>Crear cuenta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <div class="register-container">
-    
+<ion-content [fullscreen]="true" scrollY="true">
+  <div class="login-container">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <!-- Título -->
-      <ion-text class="title-text">
-        <h1>Crear una cuenta</h1>
-      </ion-text>
-
-      <!-- Link para iniciar sesión -->
-      <ion-text class="sub-title-text">
-        
-        <ion-button fill="clear" color="primary">
-          ¿Tienes una cuenta? 
-        </ion-button>
-        <ion-button fill="clear" (click)="onLogin()" color="tertiary">
-          Inicia sesión
-        </ion-button>
-      </ion-text>
-
-      <!-- Campo para el usuario -->
-      <ion-item>
-        <ion-icon slot="start" name="person-outline"></ion-icon>
-        <ion-input labelPlacement="floating" label="Usuario" type="text" formControlName="user" required></ion-input>
+      <ion-item class="rounded-item">
+        <ion-input labelPlacement="floating" label="Nombre" type="text" formControlName="name" required></ion-input>
       </ion-item>
-
-      <!-- Campo de Email -->
-      <ion-item>
-        <ion-icon slot="start" name="mail-outline"></ion-icon>
+      <ion-item class="rounded-item">
+        <ion-input labelPlacement="floating" label="Apellidos" type="text" formControlName="surname" required></ion-input>
+      </ion-item>
+      <ion-item class="rounded-item">
         <ion-input labelPlacement="floating" label="Email" type="email" formControlName="email" autocomplete="off" required></ion-input>
       </ion-item>
-
-      <!-- Campo de Contraseña -->
-      <ion-item>
-        <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+      <ion-item class="rounded-item">
         <ion-input labelPlacement="floating" label="Contraseña" type="password" formControlName="password" required></ion-input>
       </ion-item>
-
-      <!-- Campo de Confirmación de Contraseña -->
-      <ion-item>
-        <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+      <ion-item class="rounded-item">
         <ion-input labelPlacement="floating" label="Repita contraseña" type="password" formControlName="confirmPassword" required></ion-input>
       </ion-item>
-
-      <!-- Mensajes de error -->
+      <ion-text class="input-error" color="danger" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+        <p *ngIf="name?.errors?.['required']">*Debe introducir su nombre</p>
+      </ion-text>
+      <ion-text class="input-error" color="danger" *ngIf="surname?.invalid && (surname?.dirty || surname?.touched)">
+        <p *ngIf="surname?.errors?.['required']">*Debe introducir su/s apellido/s</p>
+      </ion-text>
+      <ion-text class="input-error" color="danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+        <p *ngIf="email?.errors?.['required']">*Debe introducir un email</p>
+        <p *ngIf="email?.errors?.['email']">*Debe introducir un email correcto</p>
+      </ion-text>
+      <ion-text class="input-error" color="danger" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+        <p *ngIf="password?.errors?.['required']">*Debe introducir una contraseña</p>
+      </ion-text>
       <ion-text class="input-error" color="danger" *ngIf="registerForm.errors?.['passwordsMismatch']">
         <p>*Las contraseñas no coinciden</p>
       </ion-text>
-
-      <!-- Botón para crear la cuenta -->
-      <ion-button expand="block" type="submit" color="primary" [disabled]="registerForm.invalid">
-        <ion-icon name="person-add-outline" slot="start"></ion-icon>
+      <ion-button expand="block" type="submit" [disabled]="registerForm.invalid" class="submit-button">
         Crear cuenta
       </ion-button>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <a (click)="onLogin()" class="register-link">
+              ¿Tienes cuenta?
+            </a>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </form>
   </div>
 </ion-content>
