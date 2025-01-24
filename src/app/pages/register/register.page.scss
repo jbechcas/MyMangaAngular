@@ -7,6 +7,13 @@ div.login-container {
   padding: 16px; /* Espaciado para evitar bordes ajustados */
   overflow-y: auto; /* Permitir scroll vertical si el contenido crece */
 }
+h1 {
+  color: white;
+  margin-bottom: 24px;
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
 
 form {
   width: 100%;
@@ -51,4 +58,15 @@ ion-text.input-error {
   width: 300px;
   height: auto;
   margin-top: 0px;
+}
+
+.login-link {
+  text-decoration: underline;
+  color: rgba(255, 255, 255, 0.473);
+  cursor: pointer;
+  
+}
+
+.login-link:hover {
+  color: white;
 }

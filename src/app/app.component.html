@@ -1,47 +1,50 @@
-<ion-app>
-   <!-- Menú lateral -->
-   <ion-menu #menu side="start" menuId="mainMenu" contentId="mainContent" [disabled]="!(authSvc.authenticated$ | async)" >
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>{{ 'MENU.TITLE' | translate }}</ion-title>
-        <ion-fab slot="end">
-          <ion-fab-button size="small">
-            <ion-icon name="language-outline"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-list side="start">
-            <ion-fab-button (click)="changeLanguage('es')" [color]="currentLang === 'es' ? 'primary' : 'medium'">
-              <ion-text>ES</ion-text>
-            </ion-fab-button>
-            <ion-fab-button (click)="changeLanguage('en')" [color]="currentLang === 'en' ? 'primary' : 'medium'">
-              <ion-text>EN</ion-text>
-            </ion-fab-button>
-          </ion-fab-list>
-        </ion-fab>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item (click)="menu.close()" routerLink="/home" routerDirection="root">{{ 'MENU.HOME' | translate }}</ion-item>
-        <ion-item (click)="menu.close()" *ngIf="(authSvc.authenticated$ | async)" routerLink="/people" routerDirection="root">{{ 'MENU.PEOPLE' | translate }}</ion-item>
-        <ion-item (click)="menu.close()" *ngIf="(authSvc.authenticated$ | async)" routerLink="/groups" routerDirection="root">{{ 'MENU.GROUPS' | translate }}</ion-item>
-        <ion-item (click)="menu.close()" *ngIf="(authSvc.authenticated$ | async)" routerLink="/profile" routerDirection="root">{{ 'MENU.PROFILE' | translate }}</ion-item>
-        <ion-item (click)="menu.close()" *ngIf="(authSvc.authenticated$ | async)" (click)="logout()" button>{{ 'MENU.LOGOUT' | translate }}</ion-item>
-      </ion-list>
-    </ion-content>
-    <ion-footer>
-      <ion-toolbar>
-        <ion-item lines="none">
-          <ion-avatar slot="start">
-            <!-- Avatar del usuario -->
-            <img [src]="'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Avatar" />
-          </ion-avatar>
-          <ion-label>
-            <!-- Nombre del usuario -->
-            <h3>{{ (authSvc.user$ | async)?.username}}</h3>
-          </ion-label>
-        </ion-item>
-      </ion-toolbar>
-    </ion-footer>
-  </ion-menu>
+<ion-app class="manga-app">
+  <ion-header>
+    <ion-toolbar color="dark" *ngIf="authSvc.authenticated$ | async">
+      <ion-buttons slot="start">
+        <ion-button routerLink="/home">
+          <ion-icon slot="start" name="home"></ion-icon>
+          {{ 'MENU.HOME' | translate }}
+        </ion-button>
+        <ion-button  routerLink="/people">
+          <ion-icon slot="start" name="people"></ion-icon>
+          {{ 'MENU.PEOPLE' | translate }}
+        </ion-button>
+        <ion-button  routerLink="/groups">
+          <ion-icon slot="start" name="bookmarks"></ion-icon>
+          {{ 'MENU.GROUPS' | translate }}
+        </ion-button>
+      </ion-buttons>
+ 
+      <ion-buttons slot="end">
+        <ion-button *ngIf="authSvc.authenticated$ | async" (click)="logout()" color="danger">
+          <ion-icon slot="start" name="log-out"></ion-icon>
+          {{ 'MENU.LOGOUT' | translate }}
+        </ion-button>
+        <ion-text>
+          {{ (authSvc.user$ | async)?.username}}
+        </ion-text>
+        <ion-avatar *ngIf="authSvc.authenticated$ | async" routerLink="/profile" class="profile-avatar">
+          <img [src]="'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Avatar" />
+          <ion-label>{{ (authSvc.user$ | async)?.username }}</ion-label>
+        </ion-avatar>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+ 
   <ion-router-outlet id="mainContent"></ion-router-outlet>
-</ion-app>
+ 
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="lang-fab">
+    <ion-fab-button size="small" color="tertiary">
+      <ion-icon name="language"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="start">
+      <ion-fab-button (click)="changeLanguage('es')" [color]="currentLang === 'es' ? 'primary' : 'medium'">
+        <ion-text>ES</ion-text>
+      </ion-fab-button>
+      <ion-fab-button (click)="changeLanguage('en')" [color]="currentLang === 'en' ? 'primary' : 'medium'">
+        <ion-text>EN</ion-text>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+ </ion-app>

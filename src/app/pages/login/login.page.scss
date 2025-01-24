@@ -45,9 +45,8 @@ ion-text.input-error{
 
   .submit-button {
     --border-radius: 20px;
-    --background: linear-gradient(45deg, #2365a3, #368fe2);
-    --background-hover: linear-gradient(45deg, #368fe2, #2365a3);
-  }
+    --background: #1764ac;
+}
 
   .register-link {
     text-decoration: underline;
@@ -90,6 +89,10 @@ ion-text.input-error{
 
 .rounded-item:hover {
   --border-color: rgb(164, 198, 243); /* Resalta el borde en hover */
+}
+
+a{
+  color: white;
 }
 
 
