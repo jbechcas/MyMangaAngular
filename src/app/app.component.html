@@ -14,21 +14,39 @@
           <ion-icon slot="start" name="bookmarks"></ion-icon>
           {{ 'MENU.GROUPS' | translate }}
         </ion-button>
-      </ion-buttons>
- 
-      <ion-buttons slot="end">
-        <ion-button *ngIf="authSvc.authenticated$ | async" (click)="logout()" color="danger">
-          <ion-icon slot="start" name="log-out"></ion-icon>
-          {{ 'MENU.LOGOUT' | translate }}
+        <ion-button  routerLink="/about">
+          <ion-icon slot="start" name="information-circle"></ion-icon>
+          {{ 'MENU.ABOUT' | translate }}
         </ion-button>
-        <ion-text>
-          {{ (authSvc.user$ | async)?.username}}
-        </ion-text>
-        <ion-avatar *ngIf="authSvc.authenticated$ | async" routerLink="/profile" class="profile-avatar">
-          <img [src]="'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Avatar" />
-          <ion-label>{{ (authSvc.user$ | async)?.username }}</ion-label>
-        </ion-avatar>
       </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button id="profile-trigger">
+          <ion-text class="username-text">
+            {{ (authSvc.user$ | async)?.username}}
+          </ion-text>
+          <ion-avatar *ngIf="authSvc.authenticated$ | async" class="profile-avatar">
+            <img [src]="profilePicture" alt="Avatar">
+          </ion-avatar>
+        </ion-button>
+      
+        <ion-popover trigger="profile-trigger" [dismissOnSelect]="false" side="bottom" alignment="end">
+          <ng-template>
+            <ion-content class="custom-popover">
+              <ion-list lines="none">
+                <ion-item button routerLink="/profile" detail="false" class="open-profile">
+                  <ion-icon slot="start" name="person-outline"></ion-icon>
+                  <ion-label>{{ 'PROFILE.TITLE' | translate }}</ion-label>
+                </ion-item>
+                <ion-item button (click)="logout()" detail="false" class="logout-item">
+                  <ion-icon slot="start" name="log-out-outline"></ion-icon>
+                  <ion-label>{{ 'MENU.LOGOUT' | translate }}</ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-content>
+          </ng-template>
+        </ion-popover>
+      </ion-buttons>
+      
     </ion-toolbar>
   </ion-header>
  

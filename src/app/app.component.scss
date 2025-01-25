@@ -1,26 +1,180 @@
-ion-toolbar {
-  position: relative;
-  
-  ion-fab {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+// Variables
+$header-height: 60px;
+$avatar-size: 32px;
+$toolbar-padding: 0.5rem 1rem;
+$transition-speed: 0.3s;
+$border-radius: 8px;
 
-    ion-fab-list {
-      margin-right: 55px;
-      
-      ion-fab-button {
-        --background: var(--ion-color-light);
-        --color: var(--ion-color-dark);
-        
-        &.ion-color-primary {
-          --background: var(--ion-color-primary);
-          --color: var(--ion-color-primary-contrast);
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin hover-effect {
+  transition: transform $transition-speed ease, opacity $transition-speed ease;
+  &:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
+}
+
+.manga-app {
+  ion-header {
+    ion-toolbar {
+      padding: $toolbar-padding;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+      ion-buttons {
+        gap: 0.5rem;
+
+        ion-button {
+          --padding-start: 0.75rem;
+          --padding-end: 0.75rem;
+          height: $header-height;
+          font-weight: 500;
+          @include hover-effect;
+
+          ion-icon {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+          }
         }
       }
     }
   }
+
+  #profile-trigger {
+    @include flex-center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: $border-radius;
+    background: rgba(247, 247, 247, 0.05);
+
+    .username-text {
+      font-weight: 500;
+      margin-right: 0.5rem;
+    }
+
+    .profile-avatar {
+      width: $avatar-size;
+      height: $avatar-size;
+      border: 2px solid var(--ion-color-light);
+      transition: border-color $transition-speed ease;
+
+      &:hover {
+        border-color: var(--ion-color-primary);
+      }
+
+      img {
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  #mainContent {
+    margin-top: 100px;
+  }
+
+  // Popover personalizado
+  .custom-popover {
+    ion-list {
+      background-color: white;
+      padding: 0.5rem;
+  
+      ion-item {
+        --padding-start: 1rem;
+        --padding-end: 1rem;
+        --min-height: 3rem;
+        --border-radius: #{$border-radius};
+        margin: 0.25rem 0;
+        @include hover-effect;
+        color: #333; // Cambia el color del texto de las opciones
+  
+        ion-icon {
+          font-size: 1.25rem;
+          margin-right: 0.75rem;
+          color: #666; // Cambia el color de los iconos de las opciones
+        }
+  
+        &.logout-item {
+          color: var(--ion-color-danger);
+          --color: var(--ion-color-danger);
+          ion-icon {
+            color: var(--ion-color-danger);
+          }
+        }
+
+        &.open-profile {
+          color: var(--ion-color-primary);
+          --color: var(--ion-color-primary);
+          ion-icon {
+            color: var(--ion-color-primary);
+          }
+        }
+  
+        &:hover {
+          background-color: #f5f5f5; // Agrega un efecto de hover a las opciones
+        }
+      }
+    }
+  }
+
+  .custom-popover {
+    --background: white;
+  
+    ion-content {
+      --background: white;
+    }
+  
+    ion-list {
+      background-color: white;
+    }
+  
+    ion-item {
+      --background: white;
+      --color: #333;
+    }
+  }
+
+  // FAB de idiomas
+  .lang-fab {
+    margin: 1rem;
+
+    ion-fab-button {
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      @include hover-effect;
+
+      &[size="small"] {
+        --size: 40px;
+      }
+
+      ion-text {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
+    }
+
+    ion-fab-list {
+      gap: 0.5rem;
+    }
+  }
 }
 
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+.ion-popover {
+  animation: fadeIn 0.2s ease-out;
+}

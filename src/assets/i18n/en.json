@@ -69,7 +69,8 @@
     "PEOPLE": "People",
     "GROUPS": "Groups",
     "LOGOUT": "Logout",
-    "PROFILE": "Profile"
+    "PROFILE": "Profile",
+    "ABOUT": "About me"
   },
   "PROFILE": {
     "TITLE": "Profile",
