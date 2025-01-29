@@ -1,4 +1,8 @@
 // src/app/repositories/repository.factory.ts
+// Añadir estas importaciones al inicio
+import { Manga } from '../models/manga.model';
+import { MANGA_REPOSITORY_TOKEN, MANGA_API_URL_TOKEN, MANGA_REPOSITORY_MAPPING_TOKEN, MANGA_RESOURCE_NAME_TOKEN } from './repository.tokens';
+import { MangaMappingStrapi } from './impl/manga-mapping-strapi.service';
 import { FactoryProvider, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseRepositoryHttpService } from './impl/base-repository-http.service';
@@ -23,6 +27,7 @@ import { GroupsMappingStrapi } from './impl/groups-mapping-strapi.service';
 import { IStrapiAuthentication } from '../services/interfaces/strapi-authentication.interface';
 import { StrapiMediaService } from '../services/impl/strapi-media.service';
 import { BaseMediaService } from '../services/impl/base-media.service';
+
 
 export function createBaseRepositoryFactory<T extends Model>(
   token: InjectionToken<IBaseRepository<T>>,
@@ -50,7 +55,7 @@ export function createBaseRepositoryFactory<T extends Model>(
 export function createBaseMappingFactory<T extends Model>(
   token: InjectionToken<IBaseMapping<T>>,
   dependencies: any[],
-  modelType: 'person' | 'group'
+  modelType: 'person' | 'group' | 'manga'
 ): FactoryProvider {
   return {
     provide: token,
@@ -63,11 +68,17 @@ export function createBaseMappingFactory<T extends Model>(
         case 'json-server':
           return modelType === 'person'
             ? new PeopleMappingJsonServer()
-            : new GroupsMappingJsonServer();
+            : modelType === 'group'
+              ? new GroupsMappingJsonServer()
+              : null;
         case 'strapi':
           return modelType === 'person'
             ? new PeopleMappingStrapi()
-            : new GroupsMappingStrapi();
+            : modelType === 'group'
+              ? new GroupsMappingStrapi()
+              : modelType === 'manga'
+                ? new MangaMappingStrapi()
+                : null;
         default:
           throw new Error("BACKEND NOT IMPLEMENTED");
       }
@@ -157,4 +168,14 @@ export const PeopleRepositoryFactory: FactoryProvider = createBaseRepositoryFact
 );
 export const GroupsRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Group>(GROUPS_REPOSITORY_TOKEN,
   [BACKEND_TOKEN, HttpClient, BaseAuthenticationService, GROUPS_API_URL_TOKEN, GROUPS_RESOURCE_NAME_TOKEN, GROUPS_REPOSITORY_MAPPING_TOKEN]
+);
+
+export const MangaRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Manga>(MANGA_REPOSITORY_TOKEN,
+  [BACKEND_TOKEN, HttpClient, BaseAuthenticationService, MANGA_API_URL_TOKEN, MANGA_RESOURCE_NAME_TOKEN, MANGA_REPOSITORY_MAPPING_TOKEN]
+);
+
+export const MangaMappingFactory = createBaseMappingFactory<Manga>(
+  MANGA_REPOSITORY_MAPPING_TOKEN, 
+  [BACKEND_TOKEN],
+  'manga'
 );
