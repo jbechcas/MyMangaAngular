@@ -52,11 +52,11 @@
  
   <ion-router-outlet id="mainContent"></ion-router-outlet>
  
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="lang-fab" *ngIf="authSvc.authenticated$ | async">
+  <ion-fab vertical="bottom" horizontal="top" slot="fixed" class="lang-fab" *ngIf="authSvc.authenticated$ | async">
     <ion-fab-button size="small" color="tertiary">
       <ion-icon name="language"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="start">
+    <ion-fab-list side="end">
       <ion-fab-button (click)="changeLanguage('es')" [color]="currentLang === 'es' ? 'primary' : 'medium'">
         <ion-text>ES</ion-text>
       </ion-fab-button>
