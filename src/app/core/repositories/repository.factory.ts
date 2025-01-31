@@ -69,16 +69,16 @@ export function createBaseMappingFactory<T extends Model>(
           return modelType === 'person'
             ? new PeopleMappingJsonServer()
             : modelType === 'group'
-              ? new GroupsMappingJsonServer()
-              : null;
+            ? new GroupsMappingJsonServer()
+            : null;
         case 'strapi':
           return modelType === 'person'
             ? new PeopleMappingStrapi()
             : modelType === 'group'
-              ? new GroupsMappingStrapi()
-              : modelType === 'manga'
-                ? new MangaMappingStrapi()
-                : null;
+            ? new GroupsMappingStrapi()
+            : modelType === 'manga'
+            ? new MangaMappingStrapi()
+            : null;
         default:
           throw new Error("BACKEND NOT IMPLEMENTED");
       }

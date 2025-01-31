@@ -12,14 +12,14 @@ import { MangaService } from '../../core/services/impl/manga.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  private pageSize = 10;
+  private pageSize = 20;
   private page = 1;
   private refresh$ = new BehaviorSubject<void>(undefined);
   mangas$: Observable<Paginated<Manga>>;
+  selectedManga: Manga | null = null;
 
   constructor(
     private mangaSvc: MangaService,
-    private modalCtrl: ModalController,
     private alertCtrl: AlertController
   ) {
     this.mangas$ = this.refresh$.pipe(
@@ -30,6 +30,14 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.refresh$.next();
     console.log('Refresh mangas');
+  }
+
+  openMangaModal(manga: Manga) {
+    this.selectedManga = manga;
+  }
+
+  closeMangaModal() {
+    this.selectedManga = null;
   }
 
   async addManga() {
@@ -62,6 +70,7 @@ export class HomePage implements OnInit {
             
             this.mangaSvc.add(newManga as Manga).subscribe(() => {
               this.refresh$.next();
+              this.closeMangaModal();
             });
           }
         }
@@ -104,6 +113,7 @@ export class HomePage implements OnInit {
             
             this.mangaSvc.update(manga.id, updatedManga as Manga).subscribe(() => {
               this.refresh$.next();
+              this.closeMangaModal();
             });
           }
         }
@@ -127,6 +137,7 @@ export class HomePage implements OnInit {
           handler: () => {
             this.mangaSvc.delete(manga.id).subscribe(() => {
               this.refresh$.next();
+              this.closeMangaModal();
             });
           }
         }
@@ -136,20 +147,4 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 
-  loadMore(event: any) {
-    this.page++;
-    this.mangaSvc.getAll(this.page, this.pageSize).subscribe(
-      (result) => {
-        event.target.complete();
-        if (result.data.length < this.pageSize) {
-          event.target.disabled = true;
-        }
-        this.refresh$.next();
-      },
-      (error) => {
-        console.error('Error loading more mangas:', error);
-        event.target.complete();
-      }
-    );
-  }
 }

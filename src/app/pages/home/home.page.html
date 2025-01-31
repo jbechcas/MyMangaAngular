@@ -1,103 +1,64 @@
 <ion-content>
   <ion-grid class="manga-grid">
-    <ion-row class="manga-row" justify-content-center>
-      <ion-col size="12" size-md="6" size-lg="3" *ngFor="let manga of (mangas$ | async)?.data">
-        <ion-card class="manga-card" *ngIf="manga">
+    <ion-row class="ion-padding">
+      <ion-col size="12" size-md="6" size-lg="3" *ngFor="let manga of (mangas$ | async)?.data" class="manga-column">
+        <div class="manga-card" (click)="openMangaModal(manga)">
           <div class="manga-image-container">
-            <img [src]="manga.picture?.url || 'assets/placeholder-manga.jpg'" [alt]="manga.title" class="manga-image"/>
+            <img [src]="manga.picture?.url || 'assets/placeholder-manga.jpg'" [alt]="manga.title"/>
           </div>
-          <ion-card-header class="manga-header">
-            <ion-card-title>{{manga.title}}</ion-card-title>
-            <ion-card-subtitle *ngIf="manga.description" class="manga-description">
-              {{manga.description | slice:0:100}}{{manga.description.length > 100 ? '...' : ''}}
-            </ion-card-subtitle>
-          </ion-card-header>
-          
-          <ion-card-content>
-            <div class="manga-actions">
-              <ion-button color="primary" (click)="editManga(manga)">
-                <ion-icon slot="icon-only" name="create"></ion-icon>
-              </ion-button>
-              <ion-button color="danger" (click)="deleteManga(manga)">
-                <ion-icon slot="icon-only" name="trash"></ion-icon>
-              </ion-button>
-            </div>
-          </ion-card-content>
-        </ion-card>
+          <div class="manga-info">
+            <h3>{{manga.title}}</h3>
+          </div>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" style="margin-right: 20px;">
+  <!-- Modal del manga -->
+  <ion-modal 
+    [isOpen]="selectedManga !== null" 
+    (didDismiss)="selectedManga = null" 
+    class="manga-modal">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar color="dark">
+          <ion-title>{{selectedManga?.title}}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="selectedManga = null">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding modal-content" *ngIf="selectedManga">
+        <div class="manga-detail">
+          <div class="manga-detail-image">
+            <img [src]="selectedManga.picture?.url || 'assets/placeholder-manga.jpg'" [alt]="selectedManga.title"/>
+          </div>
+          <div class="manga-detail-info">
+            <h2>{{selectedManga.title}}</h2>
+            <p class="manga-description">{{selectedManga.description || 'Sin descripción disponible'}}</p>
+            
+            <div class="manga-actions">
+              <ion-button color="primary" (click)="editManga(selectedManga)">
+                <ion-icon slot="start" name="create"></ion-icon>
+                Editar
+              </ion-button>
+              <ion-button color="danger" (click)="deleteManga(selectedManga)">
+                <ion-icon slot="start" name="trash"></ion-icon>
+                Eliminar
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="add-button">
     <ion-fab-button (click)="addManga()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
-
-<style>
-.manga-grid {
-  display: flex;
-  justify-content: center;
-  padding-left: 10%;
-  padding-right: 10%;
-}
-
-.manga-row {
-  justify-content: center;
-}
-
-.manga-card {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-  background: #1e1e1e;
-  color: white;
-}
-
-.manga-card:hover {
-  transform: scale(1.02);
-}
-
-.manga-image-container {
-  position: relative;
-}
-
-.manga-image {
-  width: 352px;
-  height: 528px;
-  object-fit: cover;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-}
-
-.badge-up {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: red;
-  color: white;
-  font-weight: bold;
-  padding: 5px 8px;
-  border-radius: 5px;
-  font-size: 12px;
-}
-
-.manga-header {
-  background: rgba(0, 0, 0, 0.7);
-  padding: 10px;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-}
-
-.manga-description {
-  font-size: 14px;
-  color: #bbb;
-}
-
-.manga-actions {
-  display: flex;
-  justify-content: space-between;
-}
-</style>
