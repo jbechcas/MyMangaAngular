@@ -11,6 +11,9 @@ import { lastValueFrom, Subject, takeUntil } from 'rxjs';
  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnDestroy {
+openProfile() {
+throw new Error('Method not implemented.');
+}
  currentLang: string;
  profilePicture: string = 'https://ionicframework.com/docs/img/demos/avatar.svg';
  private destroy$ = new Subject<void>();
