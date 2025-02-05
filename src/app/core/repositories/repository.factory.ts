@@ -1,8 +1,10 @@
 // src/app/repositories/repository.factory.ts
 // Añadir estas importaciones al inicio
 import { Manga } from '../models/manga.model';
-import { MANGA_REPOSITORY_TOKEN, MANGA_API_URL_TOKEN, MANGA_REPOSITORY_MAPPING_TOKEN, MANGA_RESOURCE_NAME_TOKEN } from './repository.tokens';
+import { Chapter } from '../models/chapter.model';
+import { MANGA_REPOSITORY_TOKEN, MANGA_API_URL_TOKEN, MANGA_REPOSITORY_MAPPING_TOKEN, MANGA_RESOURCE_NAME_TOKEN, CHAPTER_REPOSITORY_TOKEN, CHAPTER_API_URL_TOKEN, CHAPTER_REPOSITORY_MAPPING_TOKEN, CHAPTER_RESOURCE_NAME_TOKEN } from './repository.tokens';
 import { MangaMappingStrapi } from './impl/manga-mapping-strapi.service';
+import { ChapterMappingStrapi } from './impl/chapter-mapping-strapi.service';
 import { FactoryProvider, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseRepositoryHttpService } from './impl/base-repository-http.service';
@@ -55,7 +57,7 @@ export function createBaseRepositoryFactory<T extends Model>(
 export function createBaseMappingFactory<T extends Model>(
   token: InjectionToken<IBaseMapping<T>>,
   dependencies: any[],
-  modelType: 'person' | 'group' | 'manga'
+  modelType: 'person' | 'group' | 'manga' | 'chapter'
 ): FactoryProvider {
   return {
     provide: token,
@@ -78,6 +80,8 @@ export function createBaseMappingFactory<T extends Model>(
             ? new GroupsMappingStrapi()
             : modelType === 'manga'
             ? new MangaMappingStrapi()
+            : modelType === 'chapter'
+            ? new ChapterMappingStrapi()
             : null;
         default:
           throw new Error("BACKEND NOT IMPLEMENTED");
@@ -119,6 +123,18 @@ export const GroupsMappingFactory = createBaseMappingFactory<Group>(
   GROUPS_REPOSITORY_MAPPING_TOKEN, 
   [BACKEND_TOKEN],
   'group'
+);
+
+export const MangaMappingFactory = createBaseMappingFactory<Manga>(
+  MANGA_REPOSITORY_MAPPING_TOKEN, 
+  [BACKEND_TOKEN],
+  'manga'
+);
+
+export const ChapterMappingFactory = createBaseMappingFactory<Chapter>(
+  CHAPTER_REPOSITORY_MAPPING_TOKEN, 
+  [BACKEND_TOKEN],
+  'chapter'
 );
 
 export const AuthMappingFactory: FactoryProvider = createBaseAuthMappingFactory(AUTH_MAPPING_TOKEN, [BACKEND_TOKEN]);
@@ -166,6 +182,7 @@ export const MediaServiceFactory:FactoryProvider = {
 export const PeopleRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Person>(PEOPLE_REPOSITORY_TOKEN,
   [BACKEND_TOKEN, HttpClient, BaseAuthenticationService, PEOPLE_API_URL_TOKEN, PEOPLE_RESOURCE_NAME_TOKEN, PEOPLE_REPOSITORY_MAPPING_TOKEN]
 );
+
 export const GroupsRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Group>(GROUPS_REPOSITORY_TOKEN,
   [BACKEND_TOKEN, HttpClient, BaseAuthenticationService, GROUPS_API_URL_TOKEN, GROUPS_RESOURCE_NAME_TOKEN, GROUPS_REPOSITORY_MAPPING_TOKEN]
 );
@@ -174,8 +191,6 @@ export const MangaRepositoryFactory: FactoryProvider = createBaseRepositoryFacto
   [BACKEND_TOKEN, HttpClient, BaseAuthenticationService, MANGA_API_URL_TOKEN, MANGA_RESOURCE_NAME_TOKEN, MANGA_REPOSITORY_MAPPING_TOKEN]
 );
 
-export const MangaMappingFactory = createBaseMappingFactory<Manga>(
-  MANGA_REPOSITORY_MAPPING_TOKEN, 
-  [BACKEND_TOKEN],
-  'manga'
+export const ChapterRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Chapter>(CHAPTER_REPOSITORY_TOKEN,
+  [BACKEND_TOKEN, HttpClient, BaseAuthenticationService, CHAPTER_API_URL_TOKEN, CHAPTER_RESOURCE_NAME_TOKEN, CHAPTER_REPOSITORY_MAPPING_TOKEN]
 );

@@ -14,7 +14,9 @@ import {
   PeopleMappingFactory, 
   PeopleRepositoryFactory,
   MangaMappingFactory,
-  MangaRepositoryFactory 
+  MangaRepositoryFactory, 
+  ChapterMappingFactory,
+  ChapterRepositoryFactory
 } from './core/repositories/repository.factory';
 import { PeopleService } from './core/services/impl/people.service';
 import { MangaService } from './core/services/impl/manga.service';
@@ -31,7 +33,10 @@ import {
   MANGA_RESOURCE_NAME_TOKEN,
   PEOPLE_API_URL_TOKEN, 
   PEOPLE_REPOSITORY_MAPPING_TOKEN, 
-  PEOPLE_RESOURCE_NAME_TOKEN, 
+  PEOPLE_RESOURCE_NAME_TOKEN,
+  CHAPTER_API_URL_TOKEN, 
+  CHAPTER_REPOSITORY_MAPPING_TOKEN, 
+  CHAPTER_RESOURCE_NAME_TOKEN,  
   UPLOAD_API_URL_TOKEN 
 } from './core/repositories/repository.tokens';
 import { provideHttpClient } from '@angular/common/http';
@@ -41,6 +46,7 @@ import { GroupsMappingJsonServer } from './core/repositories/impl/groups-mapping
 import { GroupsService } from './core/services/impl/groups.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PeopleMappingStrapi } from './core/repositories/impl/people-mapping-strapi.service';
+import { ChapterMappingStrapi } from './core/repositories/impl/chapter-mapping-strapi.service';
 import { GroupsMappingStrapi } from './core/repositories/impl/groups-mapping-strapi.service';
 import { StrapiAuthMappingService } from './core/services/impl/strapi-auth-mapping.service';
 import { StrapiAuthenticationService } from './core/services/impl/strapi-authentication.service';
@@ -52,6 +58,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SharedModule } from './shared/shared.module';
 import { environment } from 'src/environments/environment';
+import { ChapterService } from './core/services/impl/chapter.service';
 
 // Factory function para el loader de traducción
 export function createTranslateLoader(http: HttpClient) {
@@ -89,16 +96,16 @@ export function createTranslateLoader(http: HttpClient) {
     // Resource Names existentes
     { provide: PEOPLE_RESOURCE_NAME_TOKEN, useValue: 'people' },
     { provide: GROUPS_RESOURCE_NAME_TOKEN, useValue: 'groups' },
-    // Añadido para manga
     { provide: MANGA_RESOURCE_NAME_TOKEN, useValue: 'mangas' },
+    { provide: CHAPTER_RESOURCE_NAME_TOKEN, useValue: 'chapters' }, // <-- Corregido (plural)
     
     // URLs existentes
     { provide: PEOPLE_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
+    { provide: CHAPTER_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/chapters` }, // <-- Corregido (añadido "/chapters")
     { provide: GROUPS_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
-    // Añadido para manga
     { provide: MANGA_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
     
-    // URLs de autenticación (sin cambios)
+    // URLs de autenticación
     { provide: AUTH_SIGN_IN_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/auth/local` },
     { provide: AUTH_SIGN_UP_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/auth/local/register` },
     { provide: AUTH_ME_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/users/me` },
@@ -110,9 +117,10 @@ export function createTranslateLoader(http: HttpClient) {
     AuthMappingFactory,
     PeopleRepositoryFactory,
     GroupsRepositoryFactory,
-    // Factories añadidos para manga
     MangaMappingFactory,
     MangaRepositoryFactory,
+    ChapterMappingFactory,
+    ChapterRepositoryFactory,
     
     // Servicios existentes
     {
@@ -123,10 +131,13 @@ export function createTranslateLoader(http: HttpClient) {
       provide: 'GroupsService',
       useClass: GroupsService
     },
-    // Servicio añadido para manga
     {
       provide: 'MangaService',
       useClass: MangaService
+    },
+    {
+      provide: 'ChapterService',
+      useClass: ChapterService
     },
     AuthenticationServiceFactory,
     MediaServiceFactory

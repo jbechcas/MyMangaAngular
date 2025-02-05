@@ -1,0 +1,59 @@
+<ion-content>
+  <ion-grid class="chapter-grid">
+    <ion-row class="ion-padding">
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let chapter of (chapters$ | async)?.data" class="chapter-column">
+        <div class="chapter-card" (click)="openChapterModal(chapter)">
+          <div class="chapter-info">
+            <h3>{{chapter.title}}</h3>
+            <p>{{chapter.description}}</p>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Modal del capítulo -->
+  <ion-modal 
+    [isOpen]="selectedChapter !== null" 
+    (didDismiss)="selectedChapter = null" 
+    class="chapter-modal">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar color="dark">
+          <ion-title>{{selectedChapter?.title}}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="selectedChapter = null">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding modal-content" *ngIf="selectedChapter">
+        <div class="chapter-detail">
+          <div class="chapter-detail-info">
+            <h2>{{selectedChapter.title}}</h2>
+            <p class="chapter-description">{{selectedChapter.description || 'Sin descripción disponible'}}</p>
+            
+            <div class="chapter-actions">
+              <ion-button color="primary" (click)="editChapter(selectedChapter)">
+                <ion-icon slot="start" name="create"></ion-icon>
+                Editar
+              </ion-button>
+              <ion-button color="danger" (click)="deleteChapter(selectedChapter)">
+                <ion-icon slot="start" name="trash"></ion-icon>
+                Eliminar
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="add-button">
+    <ion-fab-button (click)="addChapter()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

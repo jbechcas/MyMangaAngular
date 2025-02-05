@@ -1,34 +1,28 @@
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-card>
-    <img alt="Foto de perfil" src="ruta/a/tu/foto.jpg"/>
-    <ion-card-header>
-      <ion-card-title>Sergio Hidalgo Paredes</ion-card-title>
-      <ion-card-subtitle>Desarrollador Web</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Soy un apasionado desarrollador web con experiencia en Angular, Ionic y otras tecnologías modernas. Me encanta crear aplicaciones robustas y atractivas.</p>
-      <p>Este proyecto busca mostrar mis habilidades y servir como portafolio. Seguiré trabajando para mejorarlo y añadir nuevas funcionalidades.</p>
-      <ion-list>
-        <ion-item>
-          <ion-icon name="logo-github" slot="start"></ion-icon>
-          <ion-label>
-            <a href="https://github.com/tu-usuario">GitHub</a>
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-icon name="logo-youtube" slot="start"></ion-icon>
-          <ion-label>
-            <a href="https://youtube.com/tu-canal">YouTube</a>  
-          </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-icon name="logo-twitter" slot="start"></ion-icon>  
-          <ion-label>
-            <a href="https://twitter.com/tu-usuario">Twitter</a>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+<ion-content [fullscreen]="true" class="about-container">
+  <div class="about-wrapper">
+    <ion-card class="about-card">
+      <div class="profile-image">
+        <img  src="https://avatars.githubusercontent.com/u/145535930?v=4" />
+      </div>
+      <ion-card-header class="about-header">
+        <ion-card-title class="about-title">Sergio Hidalgo Paredes</ion-card-title>
+        <ion-card-subtitle class="about-subtitle">Desarrollador Web</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content class="about-content">
+        <p>Soy un apasionado desarrollador web con experiencia en Angular, Ionic y otras tecnologías modernas. Me encanta crear aplicaciones robustas y atractivas.</p>
+        <p>Este proyecto busca mostrar mis habilidades y servir como portafolio. Seguiré trabajando para mejorarlo y añadir nuevas funcionalidades.</p>
+        <div class="social-links">
+          <a href="https://github.com/tu-usuario" target="_blank">
+            <ion-icon name="logo-github"></ion-icon>
+          </a>
+          <a href="https://youtube.com/tu-canal" target="_blank">
+            <ion-icon name="logo-youtube"></ion-icon>
+          </a>
+          <a href="https://twitter.com/tu-usuario" target="_blank">
+            <ion-icon name="logo-twitter"></ion-icon>
+          </a>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
-

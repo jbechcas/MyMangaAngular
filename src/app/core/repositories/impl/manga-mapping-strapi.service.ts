@@ -3,33 +3,27 @@ import { IBaseMapping } from "../intefaces/base-mapping.interface";
 import { Paginated } from "../../models/paginated.model";
 import { Manga } from "../../models/manga.model";
 
-
-interface MangaRaw {
-    data: Data;
-    meta: Meta;
-}
-
-interface Data {
-    id: number;
-    attributes: MangaAttributes;
-}
-
-interface Meta {
-    pagination: {
-        page: number;
-        pageSize: number;
-        pageCount: number;
-        total: number;
-    };
-}
-
-interface MangaAttributes {
+export interface MangaRaw {
+    id?: string;
     title: string;
     description?: string;
     createdAt?: string;
     updatedAt?: string;
     publishedAt?: string;
-    picture?: any;
+    picture?: {
+        data?: {
+            id: number;
+            attributes: {
+                url: string;
+                formats?: {
+                    large?: { url: string };
+                    medium?: { url: string };
+                    small?: { url: string };
+                    thumbnail?: { url: string };
+                };
+            };
+        };
+    };
 }
 
 @Injectable({
@@ -47,62 +41,56 @@ export class MangaMappingStrapi implements IBaseMapping<Manga> {
     }
 
     setUpdate(data: Partial<Manga>): any {
-        const mappedData: Partial<MangaAttributes> = {};
-        
+        let toReturn: any = {};
+
         Object.keys(data).forEach(key => {
-            switch(key) {
-                case 'title': mappedData.title = data[key];
+            switch (key) {
+                case 'title': toReturn['title'] = data[key];
                     break;
-                case 'description': mappedData.description = data[key];
+                case 'description': toReturn['description'] = data[key];
                     break;
-                case 'picture': mappedData.picture = data[key] ? Number(data[key]) : null;
+                case 'picture': toReturn['picture'] = data[key] ? Number(data[key]) : null;
                     break;
             }
         });
 
-        return {
-            data: mappedData
-        };
+        return { data: toReturn };
     }
 
-    getPaginated(page: number, pageSize: number, pages: number, data: Data[]): Paginated<Manga> {
+    getPaginated(page: number, pageSize: number, pages: number, data: any[]): Paginated<Manga> {
         return {
             page: page,
             pageSize: pageSize,
             pages: pages,
-            data: data.map<Manga>((d: Data) => this.getOne(d))
+            data: data.map(d => this.getOne(d))
         };
     }
 
-    getOne(data: Data | MangaRaw): Manga {
-        const isMangaRaw = (data: Data | MangaRaw): data is MangaRaw => 'meta' in data;
-        
-        const attributes = isMangaRaw(data) ? data.data.attributes : data.attributes;
-        const id = isMangaRaw(data) ? data.data.id : data.id;
-
+    getOne(data: any): Manga {
+        const attributes = data.attributes || data;
         return {
-            id: id.toString(),
+            id: (data.id || attributes.id)?.toString()!,
             title: attributes.title,
             description: attributes.description,
-            picture: typeof attributes.picture === 'object' ? {
-                url: attributes.picture?.data?.attributes?.url,
-                large: attributes.picture?.data?.attributes?.formats?.large?.url || attributes.picture?.data?.attributes?.url,
-                medium: attributes.picture?.data?.attributes?.formats?.medium?.url || attributes.picture?.data?.attributes?.url,
-                small: attributes.picture?.data?.attributes?.formats?.small?.url || attributes.picture?.data?.attributes?.url,
-                thumbnail: attributes.picture?.data?.attributes?.formats?.thumbnail?.url || attributes.picture?.data?.attributes?.url,
+            picture: attributes.picture?.data ? {
+                url: attributes.picture.data.attributes.url,
+                large: attributes.picture.data.attributes.formats?.large?.url || attributes.picture.data.attributes.url,
+                medium: attributes.picture.data.attributes.formats?.medium?.url || attributes.picture.data.attributes.url,
+                small: attributes.picture.data.attributes.formats?.small?.url || attributes.picture.data.attributes.url,
+                thumbnail: attributes.picture.data.attributes.formats?.thumbnail?.url || attributes.picture.data.attributes.url
             } : undefined
         };
     }
 
-    getAdded(data: MangaRaw): Manga {
+    getAdded(data: any): Manga {
         return this.getOne(data.data);
     }
 
-    getUpdated(data: MangaRaw): Manga {
+    getUpdated(data: any): Manga {
         return this.getOne(data.data);
     }
 
-    getDeleted(data: MangaRaw): Manga {
+    getDeleted(data: any): Manga {
         return this.getOne(data.data);
     }
 }

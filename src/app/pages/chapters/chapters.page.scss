@@ -1,0 +1,117 @@
+.chapter-grid {
+  padding: 2rem;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.chapter-column {
+  padding: 1rem;
+}
+
+.chapter-card {
+  background: var(--ion-color-dark);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  height: 100%;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+}
+
+.chapter-card:hover {
+  transform: translateY(-5px);
+}
+
+.chapter-info {
+  padding: 1.5rem;
+}
+
+.chapter-info h3 {
+  margin: 0;
+  color: var(--ion-color-light);
+  font-size: 1.1rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+
+.chapter-info p {
+  margin: 0.5rem 0 0;
+  color: var(--ion-color-light-shade);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+
+
+
+.chapter-modal {
+  --width: 90%;
+  --max-width: 900px;
+  --height: 90%;
+  --border-radius: 16px;
+  --backdrop-opacity: 0.85;
+}
+
+.chapter-modal::part(content) {
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  --background: var(--ion-color-dark);
+}
+
+.chapter-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.chapter-detail-info {
+  flex: 1;
+  padding: 0 1.5rem;
+}
+
+.chapter-detail-info h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--ion-color-light);
+}
+
+.chapter-description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--ion-color-light-shade);
+  margin-bottom: 2rem;
+}
+
+.chapter-actions {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: auto;
+  padding-top: 2rem;
+}
+
+.chapter-actions ion-button {
+  --padding-start: 2rem;
+  --padding-end: 2rem;
+}
+
+.add-button {
+  margin: 2rem;
+}

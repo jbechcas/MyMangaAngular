@@ -1,12 +1,16 @@
 <ion-app class="manga-app">
   <ion-header>
-    <ion-toolbar color="dark" *ngIf="authSvc.authenticated$ | async">
+    <ion-toolbar color="dark" *ngIf="authSvc.authenticated$ | async" class="custom-tool-bar">
       <ion-buttons slot="start" class="nav-buttons">
         <ion-menu-button class="menu-button ion-hide-md-up"></ion-menu-button>
         <div class="desktop-nav ion-hide-md-down">
           <ion-button routerLink="/home" routerLinkActive="active-link">
             <ion-icon slot="start" name="home"></ion-icon>
             {{ 'MENU.HOME' | translate }}
+          </ion-button>
+          <ion-button routerLink="/chapter" routerLinkActive="active-link">
+            <ion-icon slot="start" name="chapter"></ion-icon>
+            chapter
           </ion-button>
           <ion-button routerLink="/people" routerLinkActive="active-link">
             <ion-icon slot="start" name="people"></ion-icon>
