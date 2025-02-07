@@ -101,7 +101,7 @@ export function createTranslateLoader(http: HttpClient) {
     
     // URLs existentes
     { provide: PEOPLE_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
-    { provide: CHAPTER_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/chapters` }, // <-- Corregido (añadido "/chapters")
+    { provide: CHAPTER_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` }, // <-- Corregido (añadido "/chapters")
     { provide: GROUPS_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
     { provide: MANGA_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
     

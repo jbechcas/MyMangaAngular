@@ -25,33 +25,10 @@ throw new Error('Method not implemented.');
    private router: Router
  ) {
    this.currentLang = this.languageService.getStoredLanguage();
-   this.loadUserProfile();
-   
-   this.authSvc.authenticated$
-     .pipe(takeUntil(this.destroy$))
-     .subscribe(isAuthenticated => {
-       if(isAuthenticated) {
-         this.loadUserProfile();
-       } else {
-         this.profilePicture = 'https://ionicframework.com/docs/img/demos/avatar.svg';
-       }
-   });
+
  }
 
- private async loadUserProfile() {
-   try {
-     const user = await this.authSvc.getCurrentUser();
-     if (user) {
-       const person = await lastValueFrom(this.peopleSvc.getByUserId(user.id));
-       if (person?.picture?.url) {
-         this.profilePicture = `${person.picture.url}`;
-       }
-     }
-   } catch (error) {
-     console.error('Error loading profile:', error);
-     this.profilePicture = 'https://ionicframework.com/docs/img/demos/avatar.svg';
-   }
- }
+
 
  changeLanguage(lang: string) {
    this.languageService.changeLanguage(lang);

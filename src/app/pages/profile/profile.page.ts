@@ -14,16 +14,15 @@ import { PeopleService } from 'src/app/core/services/impl/people.service';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-
-  genders:string[] = ['Masculino', 'Femenino', 'Otros'];
+  genders: string[] = ['Masculino', 'Femenino', 'Otros'];
   formGroup: FormGroup;
   person?: Person | null;
 
   constructor(
     private formBuilder: FormBuilder,
     private peopleService: PeopleService,
-    private authService:BaseAuthenticationService,
-    private mediaService:BaseMediaService,
+    private authService: BaseAuthenticationService,
+    private mediaService: BaseMediaService,
     private loadingController: LoadingController,
     private toastController: ToastController,
     private translateService: TranslateService
@@ -33,7 +32,7 @@ export class ProfilePage implements OnInit {
       surname: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       gender: ['', [Validators.required]],
-      groupId:[null, []],
+      groupId: [null, []],
       picture: ['']
     });
   }
@@ -44,20 +43,21 @@ export class ProfilePage implements OnInit {
 
     try {
       const user = await this.authService.getCurrentUser();
-      if(user){
-          this.person = await lastValueFrom(this.peopleService.getByUserId(user.id));
-          console.log(this.person);
-          if (this.person) {
-            const updatedPerson: any = {
-              ...this.person,
-              email:user.email,
-              userId:user.id,
-              picture: typeof this.person.picture === 'object' ? 
-                           this.person.picture.url : 
-                           undefined
-            };
-            this.formGroup.patchValue(updatedPerson);
-          }
+      if (user) {
+        // Get person directly by user ID without pagination
+        this.person = await lastValueFrom(this.peopleService.getByUserId(user.id));
+        
+        if (this.person) {
+          const updatedPerson: any = {
+            ...this.person,
+            email: user.email,
+            userId: user.id,
+            picture: typeof this.person.picture === 'object' ? 
+              this.person.picture.url : 
+              undefined
+          };
+          this.formGroup.patchValue(updatedPerson);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -85,26 +85,28 @@ export class ProfilePage implements OnInit {
           }
         });
 
-        if(changedValues.picture){
-          // Convertir base64 a Blob
+        if (changedValues.picture) {
           const base64Response = await fetch(changedValues.picture);
           const blob = await base64Response.blob();
           const uploadedBlob = await lastValueFrom(this.mediaService.upload(blob));
           changedValues.picture = uploadedBlob[0];
-        } 
-        
+        }
+
         await lastValueFrom(this.peopleService.update(this.person.id, changedValues));
-        
+
         const toast = await this.toastController.create({
-          message: await this.translateService.get('COMMON.SUCCESS.SAVE').toPromise(),
+          message: await lastValueFrom(this.translateService.get('COMMON.SUCCESS.SAVE')),
           duration: 3000,
           position: 'bottom'
         });
         await toast.present();
+        
+        // Reset form dirty state after successful save
+        this.formGroup.markAsPristine();
       } catch (error) {
         console.error(error);
         const toast = await this.toastController.create({
-          message: await this.translateService.get('COMMON.ERROR.SAVE').toPromise(),
+          message: await lastValueFrom(this.translateService.get('COMMON.ERROR.SAVE')),
           duration: 3000,
           position: 'bottom'
         });
@@ -115,23 +117,19 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  get name(){
+  get name() {
     return this.formGroup.controls['name'];
   }
 
-  get surname(){
+  get surname() {
     return this.formGroup.controls['surname'];
   }
 
-  get age(){
-    return this.formGroup.controls['age'];
-  }
-
-  get email(){
+  get email() {
     return this.formGroup.controls['email'];
   }
 
-  get gender(){
+  get gender() {
     return this.formGroup.controls['gender'];
   }
 }

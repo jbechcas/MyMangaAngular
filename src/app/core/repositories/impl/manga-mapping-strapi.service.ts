@@ -40,20 +40,17 @@ export class MangaMappingStrapi implements IBaseMapping<Manga> {
         };
     }
 
-    setUpdate(data: Partial<Manga>): any {
+    setUpdate(data: Manga): any {
         let toReturn: any = {};
-
         Object.keys(data).forEach(key => {
             switch (key) {
                 case 'title': toReturn['title'] = data[key];
                     break;
                 case 'description': toReturn['description'] = data[key];
                     break;
-                case 'picture': toReturn['picture'] = data[key] ? Number(data[key]) : null;
-                    break;
+                default:
             }
         });
-
         return { data: toReturn };
     }
 

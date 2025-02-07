@@ -70,7 +70,8 @@
     "GROUPS": "Groups",
     "LOGOUT": "Logout",
     "PROFILE": "Profile",
-    "ABOUT": "About me"
+    "ABOUT": "About me",
+    "CHAPTER" : "Chapters"
   },
   "PROFILE": {
     "TITLE": "Profile",

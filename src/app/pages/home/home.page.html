@@ -20,11 +20,11 @@
     (didDismiss)="selectedManga = null" 
     class="manga-modal">
     <ng-template>
-      <ion-header class="ion-no-border ">
+      <ion-header class="ion-no-border">
         <ion-toolbar color="dark">
           <ion-title>{{selectedManga?.title}}</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="selectedManga = null">
+            <ion-button (click)="closeMangaModal()">
               <ion-icon name="close"></ion-icon>
             </ion-button>
           </ion-buttons>
@@ -49,6 +49,39 @@
                 <ion-icon slot="start" name="trash"></ion-icon>
                 Eliminar
               </ion-button>
+            </div>
+
+            <!-- Lista de capítulos -->
+            <div class="chapters-section">
+              <div class="section-header">
+                <h3>Capítulos</h3>
+                <ion-button fill="clear" (click)="addChapter(selectedManga)">
+                  <ion-icon slot="icon-only" name="add"></ion-icon>
+                </ion-button>
+              </div>
+
+              <ion-list class="chapters-list">
+                <ion-item *ngFor="let chapter of mangaChapters" lines="full">
+                  <ion-label>
+                    <h3>{{chapter.title}}</h3>
+                    <p>{{chapter.description}}</p>
+                  </ion-label>
+                  <ion-buttons slot="end">
+                    <ion-button color="primary" (click)="editChapter(chapter)">
+                      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                    </ion-button>
+                    <ion-button color="danger" (click)="deleteChapter(chapter)">
+                      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                    </ion-button>
+                  </ion-buttons>
+                </ion-item>
+                
+                <ion-item *ngIf="mangaChapters.length === 0" lines="none">
+                  <ion-label class="ion-text-center">
+                    <p>No hay capítulos disponibles</p>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
             </div>
           </div>
         </div>

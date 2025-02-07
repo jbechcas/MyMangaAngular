@@ -38,7 +38,8 @@ ion-content {
               box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   margin-bottom: 1.5rem;
-  border: 8px solid rgba(255, 255, 255, 0.096);
+  border: 6px solid  rgba(255, 255, 255, 0.129);
+  
 }
 
 .manga-card:hover {
@@ -165,11 +166,6 @@ ion-toolbar {
   letter-spacing: 0.5px;
 }
 
-/* Edit button styling */
-
-
-
-/* Floating action button */
 .add-button {
   margin: 2rem;
 }
@@ -178,7 +174,6 @@ ion-fab-button {
   --background: rgba(25, 176, 214, 0.801);
 }
 
-/* Responsive design */
 @media (min-width: 768px) {
   .manga-column {
     padding: 1.5rem;
@@ -221,3 +216,54 @@ ion-fab-button {
   }
 }
 
+.chapters-section {
+  margin-top: 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    h3 {
+      margin: 0;
+      color: var(--text-primary);
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+  }
+}
+
+.chapters-list {
+  background: transparent;
+
+  ion-item {
+    --background: transparent;
+    --background-hover: rgba(255, 255, 255, 0.1);
+    --border-color: rgba(255, 255, 255, 0.1);
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+
+    h3 {
+      color: var(--text-primary);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    ion-button {
+      margin: 0 4px;
+    }
+  }
+
+  ion-item:last-child {
+    margin-bottom: 0;
+  }
+}

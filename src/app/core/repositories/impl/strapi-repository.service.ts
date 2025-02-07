@@ -1,4 +1,3 @@
-// src/app/repositories/impl/base-repository-http.service.ts
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
@@ -21,7 +20,6 @@ export interface Data<T> {
   attributes: T
 }
 
-
 export interface Meta {
   pagination: Pagination
 }
@@ -33,7 +31,6 @@ export interface Pagination {
   total: number
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -42,9 +39,9 @@ export class StrapiRepositoryService<T extends Model> extends BaseRepositoryHttp
   constructor(
     http: HttpClient,
     @Inject(STRAPI_AUTH_TOKEN) override auth: IStrapiAuthentication,
-    @Inject(API_URL_TOKEN) apiUrl: string, // URL base de la API para el modelo
-    @Inject(RESOURCE_NAME_TOKEN) resource:string, //nombre del recurso del repositorio
-    @Inject(REPOSITORY_MAPPING_TOKEN) mapping:IBaseMapping<T>
+    @Inject(API_URL_TOKEN) apiUrl: string,
+    @Inject(RESOURCE_NAME_TOKEN) resource: string,
+    @Inject(REPOSITORY_MAPPING_TOKEN) mapping: IBaseMapping<T>
   ) {
     super(http, auth, apiUrl, resource, mapping);
   }
@@ -56,20 +53,36 @@ export class StrapiRepositoryService<T extends Model> extends BaseRepositoryHttp
     };
   }
 
+  private getPopulateQuery(): string {
+    switch(this.resource) {
+      case 'chapters':
+        return 'populate=manga';
+      case 'people':
+        return 'populate=user,group,picture';
+      case 'mangas':
+        return 'populate=picture,chapter';
+      default:
+        return 'populate=*';
+    }
+  }
+
   override getAll(page:number, pageSize:number, filters:SearchParams = {}): Observable<T[] | Paginated<T>> {
     let search: string = Object.entries(filters)
       .map(([k, v]) => `filters[${k}]=${v}`)
       .reduce((p, v) => `${p}${v}`, "");
+    
+    const populateQuery = this.getPopulateQuery();
+
     if(page!=-1){
       return this.http.get<PaginatedRaw<T>>(
-        `${this.apiUrl}/${this.resource}?pagination[page]=${page}&pagination[pageSize]=${pageSize}&${search}&populate=user,group,picture`, 
+        `${this.apiUrl}/${this.resource}?pagination[page]=${page}&pagination[pageSize]=${pageSize}&${search}&${populateQuery}`, 
         this.getHeaders()).pipe(map(res=>{
           return this.mapping.getPaginated(page, pageSize, res.meta.pagination.total, res.data);
         }));
     }
     else{
       return this.http.get<PaginatedRaw<T>>(
-        `${this.apiUrl}/${this.resource}?&${search}`, 
+        `${this.apiUrl}/${this.resource}?${search}&${populateQuery}`, 
         this.getHeaders()).pipe(map((res:PaginatedRaw<T>)=>{
           return res.data.map((elem:Data<T>)=>{
             return this.mapping.getOne(elem);
@@ -98,5 +111,4 @@ export class StrapiRepositoryService<T extends Model> extends BaseRepositoryHttp
     return this.http.delete<T>(`${this.apiUrl}/${this.resource}/${id}`, 
       this.getHeaders()).pipe(map(res=>this.mapping.getDeleted(res)));
   }
-  
 }

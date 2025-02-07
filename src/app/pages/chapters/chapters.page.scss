@@ -1,117 +1,134 @@
-.chapter-grid {
-  padding: 2rem;
-  max-width: 1440px;
-  margin: 0 auto;
+
+ion-content{
+  --background: linear-gradient(135deg, rgb(19, 25, 83), rgb(82, 20, 20));
 }
 
-.chapter-column {
+.chapter-grid {
+  max-width: 1400px;
+  margin: 0 auto;
   padding: 1rem;
 }
 
 .chapter-card {
-  background: var(--ion-color-dark);
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-  height: 100%;
-  cursor: pointer;
-  margin-bottom: 1.5rem;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  ion-card-header {
+    padding: 1.25rem 1.5rem;
+    background: var(--ion-color-light);
+
+    ion-card-subtitle {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ion-color-medium);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    ion-card-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--ion-color-dark);
+    }
+  }
+
+  ion-card-content {
+    padding: 1.5rem;
+    .description {
+      color: var(--ion-color-medium);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      min-height: 3.2rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      border-top: 1px solid var(--ion-color-light);
+      padding-top: 1rem;
+      margin-top: auto;
+
+      ion-button {
+        --padding-start: 1rem;
+        --padding-end: 1rem;
+        height: 2.5rem;
+
+        ion-icon {
+          font-size: 1.25rem;
+        }
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
 }
 
-.chapter-card:hover {
-  transform: translateY(-5px);
+ion-fab {
+  margin: 1rem;
+
+  ion-fab-button {
+    --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.4);
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
 }
 
-.chapter-info {
-  padding: 1.5rem;
+// Responsive adjustments
+@media (min-width: 768px) {
+  .chapter-grid {
+    padding: 1.5rem;
+  }
+
+  .chapter-card {
+    ion-card-header {
+      ion-card-title {
+        font-size: 1.5rem;
+      }
+    }
+  }
 }
 
-.chapter-info h3 {
-  margin: 0;
-  color: var(--ion-color-light);
-  font-size: 1.1rem;
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+@media (min-width: 1024px) {
+  .chapter-grid {
+    padding: 2rem;
+  }
 }
 
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .chapter-card {
+    background: var(--ion-color-step-100);
+    
+    ion-card-header {
+      background: var(--ion-color-step-150);
+    }
 
-
-.chapter-info p {
-  margin: 0.5rem 0 0;
-  color: var(--ion-color-light-shade);
-  font-size: 0.9rem;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
-  overflow: hidden;
+    &:hover {
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+  }
 }
 
-
-
-.chapter-modal {
-  --width: 90%;
-  --max-width: 900px;
-  --height: 90%;
-  --border-radius: 16px;
-  --backdrop-opacity: 0.85;
+ion-card{
+  border: 6px solid  rgba(255, 255, 255, 0.129);
 }
 
-.chapter-modal::part(content) {
-  position: fixed;
-  top: 5%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-.modal-content {
-  --background: var(--ion-color-dark);
-}
-
-.chapter-detail {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.chapter-detail-info {
-  flex: 1;
-  padding: 0 1.5rem;
-}
-
-.chapter-detail-info h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: var(--ion-color-light);
-}
-
-.chapter-description {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: var(--ion-color-light-shade);
-  margin-bottom: 2rem;
-}
-
-.chapter-actions {
-  display: flex;
-  gap: 1.5rem;
-  margin-top: auto;
-  padding-top: 2rem;
-}
-
-.chapter-actions ion-button {
-  --padding-start: 2rem;
-  --padding-end: 2rem;
-}
-
-.add-button {
-  margin: 2rem;
-}
