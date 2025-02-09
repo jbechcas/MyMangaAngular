@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { GroupSelectableComponent } from './components/group-selectable/group-selectable.component';
 import { PictureSelectableComponent } from './components/picture-selectable/picture-selectable.component';
 import { PersonModalComponent } from './components/person-modal/person-modal.component';
+import { MangaFormComponent } from './components/manga-form/manga-form.component'; // Añadir esta línea
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-
-
+import { ChapterFormComponent } from './components/chapter-form/chapter-form.component';
 
 @NgModule({
   declarations: [
     PersonModalComponent, 
     GroupSelectableComponent, 
-    PictureSelectableComponent
+    PictureSelectableComponent,
+    MangaFormComponent,
+    ChapterFormComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,9 @@ import { TranslateModule } from '@ngx-translate/core';
   exports: [
     PersonModalComponent, 
     GroupSelectableComponent, 
-    PictureSelectableComponent
+    PictureSelectableComponent,
+    MangaFormComponent,
+    ChapterFormComponent
   ]
 })
 export class SharedModule { }

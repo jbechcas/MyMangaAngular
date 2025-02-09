@@ -1,0 +1,43 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{ isEdit ? 'Editar' : 'Nuevo' }} Capítulo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="chapterForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="stacked">Título</ion-label>
+      <ion-input 
+        formControlName="title" 
+        type="text" 
+        placeholder="Introduce el título del capítulo"
+        required>
+      </ion-input>
+    </ion-item>
+    <div *ngIf="title?.invalid && (title?.dirty || title?.touched)" class="validation-error">
+      <div *ngIf="title?.errors?.['required']">El título es requerido</div>
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">Descripción</ion-label>
+      <ion-textarea 
+        formControlName="description" 
+        rows="4"
+        placeholder="Describe el contenido del capítulo">
+      </ion-textarea>
+    </ion-item>
+
+    <ion-button 
+      expand="block" 
+      type="submit" 
+      [disabled]="!chapterForm.valid || chapterForm.pristine">
+      {{ isEdit ? 'Actualizar' : 'Crear' }} Capítulo
+    </ion-button>
+  </form>
+</ion-content>

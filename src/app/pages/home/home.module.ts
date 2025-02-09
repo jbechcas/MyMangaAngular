@@ -1,11 +1,10 @@
-import { inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
-
 import { HomePageRoutingModule } from './home-routing.module';
-import { provideHttpClient } from '@angular/common/http';
+import { SharedModule } from '../../shared/shared.module';  // Añade esta línea
 
 @NgModule({
   imports: [
@@ -13,10 +12,8 @@ import { provideHttpClient } from '@angular/common/http';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
+    SharedModule  // Añade esta línea
   ],
-  declarations: [HomePage],
-  providers:[
-    provideHttpClient()
-  ]
+  declarations: [HomePage]
 })
 export class HomePageModule {}

@@ -9,16 +9,14 @@ export const loggedGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
   
     return authService.ready$.pipe(
-        filter(isReady => isReady), // Esperar a que `ready$` sea true
-        take(1), // Solo tomar el primer valor true
-        switchMap(() => authService.authenticated$), // Obtener el valor actual de autenticación
+        filter(isReady => isReady), 
+        take(1), 
+        switchMap(() => authService.authenticated$), 
         map(isLoggedIn => {
           if (isLoggedIn) {
-            // Usuario autenticado, redirigir al home
             router.navigate(['/home']);
             return false;
           } else {
-            // Usuario no autenticado, permitir acceso al login
             return true;
           }
         })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Chapter } from '../../core/models/chapter.model';
@@ -7,6 +7,7 @@ import { Manga } from '../../core/models/manga.model';
 import { Paginated } from '../../core/models/paginated.model';
 import { ChapterService } from '../../core/services/impl/chapter.service';
 import { MangaService } from '../../core/services/impl/manga.service';
+import { ChapterFormComponent } from '../../shared/components/chapter-form/chapter-form.component';
 
 @Component({
   selector: 'app-chapters',
@@ -24,7 +25,8 @@ export class ChaptersPage implements OnInit {
   constructor(
     private chapterSvc: ChapterService,
     private mangaSvc: MangaService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController
   ) {
     this.chapters$ = this.refresh$.pipe(
       switchMap(() => this.chapterSvc.getAll(this.page, this.pageSize)),
@@ -55,138 +57,49 @@ export class ChaptersPage implements OnInit {
   }
 
   async addChapter() {
-    const alert = await this.alertCtrl.create({
-      header: 'Añadir Capítulo',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Título del capítulo'
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          placeholder: 'Descripción'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Siguiente',
-          handler: async (data) => {
-            const selectManga = await this.alertCtrl.create({
-              header: 'Seleccionar Manga',
-              inputs: this.mangas.map(manga => ({
-                name: 'mangaId',
-                type: 'radio',
-                label: manga.title,
-                value: manga.id
-              })),
-              buttons: [
-                {
-                  text: 'Cancelar',
-                  role: 'cancel'
-                },
-                {
-                  text: 'Añadir',
-                  handler: (mangaData) => {
-                    const newChapter: Partial<Chapter> = {
-                      title: data.title,
-                      description: data.description,
-                      mangaId: mangaData
-                    };
-                    
-                    this.chapterSvc.add(newChapter as Chapter).subscribe({
-                      next: () => {
-                        this.refresh$.next();
-                      },
-                      error: (error) => console.error('Error adding chapter:', error)
-                    });
-                  }
-                }
-              ]
-            });
-
-            await selectManga.present();
-          }
-        }
-      ]
+    const modal = await this.modalCtrl.create({
+      component: ChapterFormComponent,
+      componentProps: {
+        mangas: this.mangas
+      }
     });
 
-    await alert.present();
+    modal.onDidDismiss().then((result) => {
+      if (result.role === 'create' && result.data) {
+        this.chapterSvc.add(result.data as Chapter).subscribe({
+          next: () => {
+            this.refresh$.next();
+          },
+          error: (error) => console.error('Error adding chapter:', error)
+        });
+      }
+    });
+
+    return await modal.present();
   }
 
   async editChapter(chapter: Chapter) {
-    const alert = await this.alertCtrl.create({
-      header: 'Editar Capítulo',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Título del capítulo',
-          value: chapter.title
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          placeholder: 'Descripción',
-          value: chapter.description
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Siguiente',
-          handler: async (data) => {
-            const selectManga = await this.alertCtrl.create({
-              header: 'Seleccionar Manga',
-              inputs: this.mangas.map(manga => ({
-                name: 'mangaId',
-                type: 'radio',
-                label: manga.title,
-                value: manga.id,
-                checked: manga.id === chapter.mangaId
-              })),
-              buttons: [
-                {
-                  text: 'Cancelar',
-                  role: 'cancel'
-                },
-                {
-                  text: 'Actualizar',
-                  handler: (mangaData) => {
-                    const updatedChapter: Partial<Chapter> = {
-                      ...chapter,
-                      title: data.title,
-                      description: data.description,
-                      mangaId: mangaData
-                    };
-                    
-                    this.chapterSvc.update(chapter.id, updatedChapter as Chapter).subscribe({
-                      next: () => {
-                        this.refresh$.next();
-                        this.selectedChapter = null;
-                      },
-                      error: (error) => console.error('Error updating chapter:', error)
-                    });
-                  }
-                }
-              ]
-            });
-
-            await selectManga.present();
-          }
-        }
-      ]
+    const modal = await this.modalCtrl.create({
+      component: ChapterFormComponent,
+      componentProps: {
+        chapter: chapter,
+        mangas: this.mangas,
+        mangaId: chapter.mangaId
+      }
     });
 
-    await alert.present();
+    modal.onDidDismiss().then((result) => {
+      if (result.role === 'edit' && result.data) {
+        this.chapterSvc.update(chapter.id, result.data as Chapter).subscribe({
+          next: () => {
+            this.refresh$.next();
+          },
+          error: (error) => console.error('Error updating chapter:', error)
+        });
+      }
+    });
+
+    return await modal.present();
   }
 
   async deleteChapter(chapter: Chapter) {

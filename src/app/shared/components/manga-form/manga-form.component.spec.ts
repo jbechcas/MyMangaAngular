@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MangaFormModalComponent } from './manga-form-modal.component';
+import { MangaFormComponent } from './manga-form.component';
 
-describe('MangaFormModalComponent', () => {
-  let component: MangaFormModalComponent;
-  let fixture: ComponentFixture<MangaFormModalComponent>;
+describe('MangaFormComponent', () => {
+  let component: MangaFormComponent;
+  let fixture: ComponentFixture<MangaFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ MangaFormModalComponent ],
+      declarations: [ MangaFormComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MangaFormModalComponent);
+    fixture = TestBed.createComponent(MangaFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

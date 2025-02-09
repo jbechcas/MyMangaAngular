@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { Chapter } from '../../core/models/chapter.model';
 import { Manga } from '../../core/models/manga.model';
 import { Paginated } from '../../core/models/paginated.model';
 import { ChapterService } from '../../core/services/impl/chapter.service';
 import { MangaService } from '../../core/services/impl/manga.service';
+import { MangaFormComponent } from '../../shared/components/manga-form/manga-form.component';
+import { ChapterFormComponent } from '../../shared/components/chapter-form/chapter-form.component';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +26,8 @@ export class HomePage implements OnInit {
   constructor(
     private mangaSvc: MangaService,
     private chapterSvc: ChapterService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController
   ) {
     this.mangas$ = this.refresh$.pipe(
       switchMap(() => this.mangaSvc.getAll(this.page, this.pageSize))
@@ -58,92 +61,79 @@ export class HomePage implements OnInit {
     this.mangaChapters = [];
   }
 
-  async addChapter(manga: Manga) {
-    const alert = await this.alertCtrl.create({
-      header: 'Añadir Capítulo',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Título del capítulo'
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          placeholder: 'Descripción'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Añadir',
-          handler: (data) => {
-            const newChapter: Partial<Chapter> = {
-              title: data.title,
-              description: data.description,
-              mangaId: manga.id
-            };
-            
-            this.chapterSvc.add(newChapter as Chapter).subscribe({
-              next: () => {
-                this.loadMangaChapters(manga.id);
-              },
-              error: (error) => console.error('Error adding chapter:', error)
-            });
-          }
-        }
-      ]
+  async addManga() {
+    const modal = await this.modalCtrl.create({
+      component: MangaFormComponent
     });
 
-    await alert.present();
+    modal.onDidDismiss().then((result) => {
+      if (result.role === 'create' && result.data) {
+        this.mangaSvc.add(result.data as Manga).subscribe(() => {
+          this.refresh$.next();
+        });
+      }
+    });
+
+    return await modal.present();
+  }
+
+  async editManga(manga: Manga) {
+    const modal = await this.modalCtrl.create({
+      component: MangaFormComponent,
+      componentProps: {
+        manga: manga
+      }
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.role === 'edit' && result.data) {
+        this.mangaSvc.update(manga.id, result.data as Manga).subscribe(() => {
+          this.refresh$.next();
+          this.closeMangaModal();
+        });
+      }
+    });
+
+    return await modal.present();
+  }
+
+  async addChapter(manga: Manga) {
+    const modal = await this.modalCtrl.create({
+      component: ChapterFormComponent,
+      componentProps: {
+        mangaId: manga.id
+      }
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.role === 'create' && result.data) {
+        this.chapterSvc.add(result.data as Chapter).subscribe(() => {
+          this.loadMangaChapters(manga.id);
+        });
+      }
+    });
+
+    return await modal.present();
   }
 
   async editChapter(chapter: Chapter) {
-    const alert = await this.alertCtrl.create({
-      header: 'Editar Capítulo',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Título del capítulo',
-          value: chapter.title
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          placeholder: 'Descripción',
-          value: chapter.description
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Actualizar',
-          handler: (data) => {
-            const updatedChapter: Partial<Chapter> = {
-              ...chapter,
-              title: data.title,
-              description: data.description
-            };
-            
-            this.chapterSvc.update(chapter.id, updatedChapter as Chapter).subscribe({
-              next: () => {
-                this.loadMangaChapters(chapter.mangaId!);
-              },
-              error: (error) => console.error('Error updating chapter:', error)
-            });
-          }
-        }
-      ]
+    const modal = await this.modalCtrl.create({
+      component: ChapterFormComponent,
+      componentProps: {
+        chapter: chapter,
+        mangaId: chapter.mangaId
+      }
     });
 
-    await alert.present();
+    modal.onDidDismiss().then((result) => {
+      if (result.role === 'edit' && result.data) {
+        this.chapterSvc.update(chapter.id, result.data as Chapter).subscribe(() => {
+          this.loadMangaChapters(chapter.mangaId!);
+        });
+      }
+    });
+
+    return await modal.present();
   }
 
   async deleteChapter(chapter: Chapter) {
@@ -163,89 +153,6 @@ export class HomePage implements OnInit {
                 this.loadMangaChapters(chapter.mangaId!);
               },
               error: (error) => console.error('Error deleting chapter:', error)
-            });
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  async addManga() {
-    const alert = await this.alertCtrl.create({
-      header: 'Añadir Manga',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Título del manga'
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          placeholder: 'Descripción'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Añadir',
-          handler: (data) => {
-            const newManga: Partial<Manga> = {
-              title: data.title,
-              description: data.description
-            };
-            
-            this.mangaSvc.add(newManga as Manga).subscribe(() => {
-              this.refresh$.next();
-              this.closeMangaModal();
-            });
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  async editManga(manga: Manga) {
-    const alert = await this.alertCtrl.create({
-      header: 'Editar Manga',
-      inputs: [
-        {
-          name: 'title',
-          type: 'text',
-          placeholder: 'Título del manga',
-          value: manga.title
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          placeholder: 'Descripción',
-          value: manga.description
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Actualizar',
-          handler: (data) => {
-            const updatedManga: Partial<Manga> = {
-              ...manga,
-              title: data.title,
-              description: data.description
-            };
-            
-            this.mangaSvc.update(manga.id, updatedManga as Manga).subscribe(() => {
-              this.refresh$.next();
-              this.closeMangaModal();
             });
           }
         }

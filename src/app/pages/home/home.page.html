@@ -21,11 +21,11 @@
     class="manga-modal">
     <ng-template>
       <ion-header class="ion-no-border">
-        <ion-toolbar color="dark">
+        <ion-toolbar>
           <ion-title>{{selectedManga?.title}}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="closeMangaModal()">
-              <ion-icon name="close"></ion-icon>
+              <ion-icon name="close-outline" size="large"></ion-icon>
             </ion-button>
           </ion-buttons>
         </ion-toolbar>
@@ -51,7 +51,6 @@
               </ion-button>
             </div>
 
-            <!-- Lista de capítulos -->
             <div class="chapters-section">
               <div class="section-header">
                 <h3>Capítulos</h3>

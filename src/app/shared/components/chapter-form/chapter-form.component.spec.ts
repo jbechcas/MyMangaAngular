@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { CapituloFormModalComponent } from './capitulo-form-modal.component';
+import { ChapterFormComponent } from './chapter-form.component';
 
-describe('CapituloFormModalComponent', () => {
-  let component: CapituloFormModalComponent;
-  let fixture: ComponentFixture<CapituloFormModalComponent>;
+describe('ChapterFormComponent', () => {
+  let component: ChapterFormComponent;
+  let fixture: ComponentFixture<ChapterFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CapituloFormModalComponent ],
+      declarations: [ ChapterFormComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CapituloFormModalComponent);
+    fixture = TestBed.createComponent(ChapterFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
