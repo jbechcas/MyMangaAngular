@@ -39,11 +39,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/about/about.module').then( m => m.AboutPageModule)
   },
   {
-    path: 'groups',
-    canActivate: [authGuard],
-    loadChildren: () => import('./pages/groups/groups.module').then( m => m.GroupsPageModule)
-  },
-  {
     path: 'people',
     canActivate: [authGuard],
     loadChildren: () => import('./pages/people/people.module').then( m => m.PeoplePageModule)
@@ -55,7 +50,12 @@ const routes: Routes = [
   {
     path: 'chapters',
     loadChildren: () => import('./pages/chapters/chapters.module').then( m => m.ChaptersPageModule)
+  },
+  {
+    path: 'mangas',
+    loadChildren: () => import('./pages/mangas/mangas.module').then( m => m.MangasPageModule)
   }
+
 
 
 

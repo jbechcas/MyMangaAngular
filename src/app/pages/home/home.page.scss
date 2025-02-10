@@ -38,8 +38,7 @@ ion-content {
               box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   margin-bottom: 1.5rem;
-  border: 6px solid  rgba(255, 255, 255, 0.129);
-  
+  border: 6px solid rgba(255, 255, 255, 0.129);
 }
 
 .manga-card:hover {
@@ -88,12 +87,14 @@ ion-content {
 }
 
 /* Modal styling */
-.manga-modal {
-  --width: 85%;
-  --max-width: 900px;
-  --height: 85%;
-  --border-radius: 20px;
-  --backdrop-opacity: 0.85;
+.manga-modal.fullscreen-modal {
+  --width: 100%;
+  --height: 100%;
+  --max-width: 100%;
+  --max-height: 100%;
+  --border-radius: 0;
+  --backdrop-opacity: 1;
+  --background: linear-gradient(135deg, rgb(19, 25, 83), rgb(82, 20, 20));
 }
 
 .modal-content {
@@ -104,6 +105,8 @@ ion-toolbar {
   --background: var(--modal-bg);
   --color: var(--text-primary);
   --border-color: rgba(255, 255, 255, 0.1);
+  --padding-top: 1rem;
+  --padding-bottom: 1rem;
 }
 
 /* Detail view styling */
@@ -170,57 +173,12 @@ ion-toolbar {
   margin: 2rem;
 }
 
-ion-fab-button {
-  --background: rgba(25, 176, 214, 0.801);
-}
-
-@media (min-width: 768px) {
-  .manga-column {
-    padding: 1.5rem;
-  }
-
-  .manga-detail {
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 2rem;
-  }
-
-  .manga-detail-image {
-    flex: 0 0 300px;
-    position: sticky;
-    top: 1rem;
-  }
-
-  .manga-detail-info {
-    padding-left: 2.5rem;
-    min-height: 400px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .manga-grid {
-    padding: 3rem;
-  }
-
-  .manga-column {
-    padding: 2rem;
-  }
-
-  .manga-detail {
-    gap: 3rem;
-    padding: 3rem;
-  }
-
-  .manga-modal {
-    --width: 75%;
-  }
-}
 
 .chapters-section {
   margin-top: 2rem;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
-  padding: 1rem;
+  padding: 1.5rem;
 
   .section-header {
     display: flex;
@@ -258,256 +216,33 @@ ion-fab-button {
       font-size: 0.9rem;
     }
 
-    ion-button {
-      margin: 0 4px;
-    }
-  }
-
-  ion-item:last-child {
-    margin-bottom: 0;
-  }
-}
-
-// Variables globales
-:host {
-  --card-bg: rgba(48, 48, 122, 0.95);
-  --text-primary: #ffffff;
-  --text-secondary: #b8b8b8;
-  --border-color: rgba(255, 255, 255, 0.129);
-  --shadow-color: rgba(0, 0, 0, 0.3);
-}
-
-// Fondo principal
-ion-content {
-  --background: linear-gradient(135deg, rgb(19, 25, 83), rgb(82, 20, 20));
-}
-
-// Grid de mangas
-.manga-grid {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-// Tarjetas de manga
-.manga-card {
-  background: var(--card-bg);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 16px var(--shadow-color);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  margin-bottom: 1.5rem;
-  border: 6px solid var(--border-color);
-
-  &:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 12px 24px var(--shadow-color);
-  }
-}
-
-.manga-image-container {
-  position: relative;
-  padding-top: 150%;
-  background: var(--card-bg);
-
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
-}
-
-.manga-info {
-  padding: 1.5rem;
-  text-align: center;
-  
-  h3 {
-    margin: 0;
-    color: var(--text-primary);
-    font-size: 1.2rem;
-    font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-
-// Estilos del Modal
-.manga-modal {
-  --width: 90%;
-  --max-width: 900px;
-  --height: 90%;
-  --border-radius: 25px;
-  --backdrop-opacity: 0.85;
-  --backdrop-background: rgb(19, 25, 83);
-
-  .modal-wrapper {
-    border-radius: 25px;
-    overflow: hidden;
-    border: 6px solid var(--border-color);
-  }
-
-  ion-header {
-    background: var(--card-bg);
-
-    ion-toolbar {
-      --background: rgb(28, 26, 46);
-      --color: var(--text-primary);
-      padding: 10px;
-
-      ion-title {
-        font-size: 1.4rem;
-        font-weight: 600;
-      }
-
-      ion-button {
-        --color: var(--text-secondary);
-      }
-    }
-  }
-
-  .modal-content {
-    --background: linear-gradient(135deg, rgb(19, 25, 83), rgb(82, 20, 20));
-  }
-
-  .manga-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding: 1rem;
-
-    .manga-detail-image {
-      flex: 0 0 300px;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 6px solid var(--border-color);
-      box-shadow: 0 8px 16px var(--shadow-color);
-
-      img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-      }
+    ion-buttons {
+      opacity: 0;
+      transition: opacity 0.2s ease;
     }
 
-    .manga-detail-info {
-      flex: 1;
-      padding: 1rem;
-
-      h2 {
-        font-size: 2rem;
-        color: var(--text-primary);
-        margin-bottom: 1.5rem;
-        font-weight: 600;
-      }
-
-      .manga-description {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-        line-height: 1.8;
-        margin-bottom: 2rem;
-      }
-
-      .manga-actions {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 2rem;
-
-        ion-button {
-          --border-radius: 12px;
-          font-weight: 500;
-          text-transform: none;
-          letter-spacing: 0.5px;
-          height: 42px;
-        }
-      }
-
-      .chapters-section {
-        background: var(--card-bg);
-        border-radius: 16px;
-        padding: 1.5rem;
-        border: 6px solid var(--border-color);
-
-        .section-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 1rem;
-
-          h3 {
-            color: var(--text-primary);
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 0;
-          }
-        }
-
-        .chapters-list {
-          background: transparent;
-
-          ion-item {
-            --background: transparent;
-            --background-hover: rgba(255, 255, 255, 0.05);
-            --border-color: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-
-            ion-label {
-              h3 {
-                color: var(--text-primary);
-                font-weight: 500;
-                margin-bottom: 4px;
-              }
-
-              p {
-                color: var(--text-secondary);
-                font-size: 0.9rem;
-              }
-            }
-
-            ion-buttons {
-              opacity: 0;
-              transition: opacity 0.2s ease;
-            }
-
-            &:hover ion-buttons {
-              opacity: 1;
-            }
-          }
-        }
-      }
+    &:hover ion-buttons {
+      opacity: 1;
     }
   }
 }
 
-// Botón flotante
-ion-fab {
-  margin: 2rem;
-
-  ion-fab-button {
-    --background: rgba(25, 176, 214, 0.801);
-  }
-}
-
-// Media queries
 @media (min-width: 768px) {
   .manga-detail {
-    flex-direction: row !important;
+    flex-direction: row;
     align-items: flex-start;
+    padding: 2rem;
   }
 
   .manga-detail-image {
+    flex: 0 0 300px;
     position: sticky;
     top: 1rem;
   }
 
   .manga-detail-info {
-    padding-left: 2.5rem !important;
+    padding-left: 2.5rem;
+    min-height: 400px;
   }
 }
 
@@ -516,7 +251,12 @@ ion-fab {
     padding: 3rem;
   }
 
-  .manga-modal {
-    --width: 75%;
+  .manga-column {
+    padding: 2rem;
+  }
+
+  .manga-detail {
+    gap: 3rem;
+    padding: 3rem;
   }
 }

@@ -18,16 +18,16 @@
   <ion-modal 
     [isOpen]="selectedManga !== null" 
     (didDismiss)="selectedManga = null" 
-    class="manga-modal">
+    class="manga-modal fullscreen-modal">
     <ng-template>
       <ion-header class="ion-no-border">
         <ion-toolbar>
-          <ion-title>{{selectedManga?.title}}</ion-title>
-          <ion-buttons slot="end">
+          <ion-buttons slot="start">
             <ion-button (click)="closeMangaModal()">
-              <ion-icon name="close-outline" size="large"></ion-icon>
+              <ion-icon name="arrow-back-outline" size="large"></ion-icon>
             </ion-button>
           </ion-buttons>
+          <ion-title>{{selectedManga?.title}}</ion-title>
         </ion-toolbar>
       </ion-header>
 

@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mangas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="manga-grid">
+    <ion-row class="ion-padding">
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let manga of (mangas$ | async)?.data">
+        <div class="manga-card" (click)="openMangaModal(manga)">
+          <div class="manga-info">
+            <div class="manga-content">
+              <div class="manga-cover">
+                <img [src]="manga.picture?.url || '/assets/placeholder-manga.jpg'" [alt]="manga.title"/>
+              </div>
+              <div class="manga-text">
+                <h3>{{manga.title}}</h3>
+                <p>{{manga.description}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="action-buttons">
+            <ion-button fill="clear" (click)="editManga(manga)">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" color="danger" (click)="deleteManga(manga)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="add-button">
+    <ion-fab-button (click)="addManga()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

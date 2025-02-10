@@ -1,42 +1,37 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Capítulos</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <ion-grid class="chapter-grid">
+<ion-content >
+  <ion-grid class="chapter-grid" style="margin-top: 60px;">
     <ion-row class="ion-padding">
       <ion-col size="12" size-md="6" size-lg="4" *ngFor="let chapter of (chapters$ | async)?.data">
-        <ion-card class="chapter-card">
-          <ion-card-header>
-            <ion-card-subtitle>{{getMangaTitle(chapter.mangaId)}}</ion-card-subtitle>
-            <ion-card-title>{{chapter.title}}</ion-card-title>
-          </ion-card-header>
-
-          <ion-card-content>
-            <p class="description">{{chapter.description || 'Sin descripción'}}</p>
-            
-            <div class="action-buttons">
-              <ion-button fill="clear" (click)="editChapter(chapter)">
-                <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-              </ion-button>
-              <ion-button fill="clear" color="danger" (click)="deleteChapter(chapter)">
-                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-              </ion-button>
+        <div class="chapter-card" (click)="openChapterModal(chapter)">
+          <div class="chapter-info">
+            <div class="chapter-content">
+              <div class="chapter-cover">
+                <img [src]="getMangaImageUrl(chapter.mangaId)" [alt]="chapter.title"/>
+              </div>
+              <div class="chapter-text">
+                <h4>{{getMangaTitle(chapter.mangaId)}}</h4>
+                <h3>{{chapter.title}}</h3>
+                <p>{{chapter.description || 'Sin descripción'}}</p>
+              </div>
             </div>
-          </ion-card-content>
-        </ion-card>
+          </div>
+          <div class="action-buttons">
+            <ion-button fill="clear" (click)="editChapter(chapter)">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" color="danger" (click)="deleteChapter(chapter)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="add-button">
     <ion-fab-button (click)="addChapter()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+

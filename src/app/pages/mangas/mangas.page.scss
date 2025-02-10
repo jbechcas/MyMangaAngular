@@ -1,12 +1,11 @@
-// chapters.page.scss
-.chapter-grid {
+.manga-grid {
   padding: 2rem;
   max-width: 1440px;
   margin: 0 auto;
 }
 
-.chapter-card {
-  background: rgba(70, 69, 69, 0.274);
+.manga-card {
+  background: rgba(94, 93, 93, 0.274);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -17,20 +16,30 @@
   margin-bottom: 1.5rem;
 }
 
-.chapter-card:hover {
+.manga-card:hover {
   transform: translateY(-5px);
 }
 
-.chapter-info {
+.manga-info {
   padding: 1.5rem;
 }
 
-.chapter-content {
+.manga-info h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.manga-content {
   display: flex;
   gap: 1rem;
 }
 
-.chapter-cover {
+.manga-cover {
   flex-shrink: 0;
   height: 150px;
 
@@ -42,19 +51,9 @@
   }
 }
 
-.chapter-text {
+.manga-text {
   flex: 1;
-  min-width: 0;
-
-  h4 {
-    margin: 0;
-    color: #ffffff;
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.5rem;
-  }
+  min-width: 0; // Importante para que el texto se ajuste correctamente
 
   h3 {
     margin: 0;
@@ -90,3 +89,4 @@
 ion-content {
   --background: linear-gradient(135deg, rgb(19, 25, 83), rgb(82, 20, 20));
 }
+

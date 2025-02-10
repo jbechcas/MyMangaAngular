@@ -8,10 +8,15 @@
             <ion-icon slot="start" name="home"></ion-icon>
             {{'MENU.HOME' | translate}}
           </ion-button>
+          <ion-button routerLink="/mangas" routerLinkActive="active-link">
+            <ion-icon slot="start" name="book"></ion-icon>
+            MANGAS
+          </ion-button>
           <ion-button routerLink="/chapter" routerLinkActive="active-link">
             <ion-icon slot="start" name="document-outline"></ion-icon>
             {{ 'MENU.CHAPTER' | translate }}
           </ion-button>
+          
           <ion-button routerLink="/about" routerLinkActive="active-link">
             <ion-icon slot="start" name="information-circle"></ion-icon>
             {{ 'MENU.ABOUT' | translate }}
@@ -62,13 +67,17 @@
           <ion-icon name="home"></ion-icon>
           <ion-label>{{'MENU.HOME' | translate}}</ion-label>
         </ion-item>
+        <ion-item routerLink="/mangas" routerLinkActive="active-item">
+          <ion-icon name="book"></ion-icon>
+          <ion-label>Mangas</ion-label>
+        </ion-item>
         <ion-item routerLink="/chapter" routerLinkActive="active-item">
           <ion-icon name="document-outline"></ion-icon>
-          <ion-label>Chapters</ion-label>
+          {{ 'MENU.CHAPTER' | translate }}
         </ion-item>
         <ion-item routerLink="/about" routerLinkActive="active-item">
           <ion-icon name="information-circle"></ion-icon>
-          <ion-label>Chapters</ion-label>
+          {{ 'MENU.ABOUT' | translate }}
         </ion-item>
       </ion-list>
     </ion-content>
@@ -77,7 +86,7 @@
   <ion-router-outlet id="mainContent"></ion-router-outlet>
 
   <ion-fab vertical="bottom" horizontal="top" slot="fixed" class="lang-fab" *ngIf="authSvc.authenticated$ | async">
-    <ion-fab-button size="small" color="tertiary">
+    <ion-fab-button size="small" color="primary">
       <ion-icon name="language"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="end">

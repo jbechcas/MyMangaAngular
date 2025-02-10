@@ -1,3 +1,4 @@
+// chapters.page.ts
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -54,6 +55,11 @@ export class ChaptersPage implements OnInit {
   getMangaTitle(mangaId: string | undefined): string {
     const manga = this.mangas.find(m => m.id === mangaId);
     return manga ? manga.title : 'Sin manga asignado';
+  }
+
+  getMangaImageUrl(mangaId: string | undefined): string {
+    const manga = this.mangas.find(m => m.id === mangaId);
+    return manga && manga.picture && manga.picture.url ? manga.picture.url : '/assets/placeholder-chapter.jpg';  
   }
 
   async addChapter() {
@@ -127,5 +133,9 @@ export class ChaptersPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  openChapterModal(chapter: Chapter) {
+    this.selectedChapter = chapter;
   }
 }
