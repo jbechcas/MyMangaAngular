@@ -29,8 +29,8 @@ export class JsonServerRepositoryService<T extends Model> extends BaseRepository
   constructor(
     http: HttpClient,
     @Inject(AUTH_TOKEN) auth: IAuthentication,
-    @Inject(API_URL_TOKEN) apiUrl: string, // URL base de la API para el modelo
-    @Inject(RESOURCE_NAME_TOKEN) resource:string, //nombre del recurso del repositorio
+    @Inject(API_URL_TOKEN) apiUrl: string, 
+    @Inject(RESOURCE_NAME_TOKEN) resource:string, 
     @Inject(REPOSITORY_MAPPING_TOKEN) mapping:IBaseMapping<T>
   ) {
     super(http, auth, apiUrl, resource, mapping);

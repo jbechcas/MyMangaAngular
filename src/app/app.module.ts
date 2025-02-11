@@ -93,25 +93,21 @@ export function createTranslateLoader(http: HttpClient) {
     provideHttpClient(),
     { provide: BACKEND_TOKEN, useValue: 'strapi' },
     
-    // Resource Names existentes
     { provide: PEOPLE_RESOURCE_NAME_TOKEN, useValue: 'people' },
     { provide: GROUPS_RESOURCE_NAME_TOKEN, useValue: 'groups' },
     { provide: MANGA_RESOURCE_NAME_TOKEN, useValue: 'mangas' },
-    { provide: CHAPTER_RESOURCE_NAME_TOKEN, useValue: 'chapters' }, // <-- Corregido (plural)
+    { provide: CHAPTER_RESOURCE_NAME_TOKEN, useValue: 'chapters' }, 
     
-    // URLs existentes
     { provide: PEOPLE_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
-    { provide: CHAPTER_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` }, // <-- Corregido (añadido "/chapters")
+    { provide: CHAPTER_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` }, 
     { provide: GROUPS_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
     { provide: MANGA_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
     
-    // URLs de autenticación
     { provide: AUTH_SIGN_IN_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/auth/local` },
     { provide: AUTH_SIGN_UP_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/auth/local/register` },
     { provide: AUTH_ME_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/users/me` },
     { provide: UPLOAD_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/upload` },
-    
-    // Factories existentes
+  
     PeopleMappingFactory,
     GroupsMappingFactory,
     AuthMappingFactory,
@@ -122,7 +118,6 @@ export function createTranslateLoader(http: HttpClient) {
     ChapterMappingFactory,
     ChapterRepositoryFactory,
     
-    // Servicios existentes
     {
       provide: 'PeopleService',
       useClass: PeopleService

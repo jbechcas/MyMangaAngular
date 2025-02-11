@@ -14,7 +14,8 @@ import { passwordsMatchValidator, passwordValidator } from 'src/app/core/utils/v
 export class RegisterPage {
 
   registerForm: FormGroup;
-
+  showPassword: boolean = false;  
+  showConfirmPassword: boolean = false;  
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -30,6 +31,14 @@ export class RegisterPage {
       confirmPassword: ['', [Validators.required]]
     },
     { validators: passwordsMatchValidator });
+  }
+  
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   onSubmit() {

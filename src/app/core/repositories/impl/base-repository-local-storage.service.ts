@@ -25,7 +25,7 @@ export class BaseRespositoryLocalStorageService<T extends Model> implements IBas
   }
 
   constructor(
-    @Inject(RESOURCE_NAME_TOKEN) protected resource:string, //nombre del recurso del repositorio
+    @Inject(RESOURCE_NAME_TOKEN) protected resource:string, 
     @Inject(REPOSITORY_MAPPING_TOKEN) protected mapping:IBaseMapping<T>
   
   ) {

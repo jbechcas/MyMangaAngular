@@ -11,6 +11,7 @@ import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authe
 })
 export class LoginPage {
   loginForm: FormGroup;
+  showPassword: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -24,12 +25,16 @@ export class LoginPage {
     });
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+  
   onSubmit() {
     if (this.loginForm.valid) {
       this.authSvc.signIn(this.loginForm.value).subscribe({
         next: resp=>{
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
-          this.router.navigateByUrl(returnUrl); // Redirige a la página solicitada
+          this.router.navigateByUrl(returnUrl); 
         },
         error: err=>{
           console.log(err);

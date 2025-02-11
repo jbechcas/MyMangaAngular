@@ -39,8 +39,6 @@ export class ChapterMappingStrapi implements IBaseMapping<Chapter> {
                    break;
                case 'description':toReturn['description'] = data[key];
                    break;
-               case 'mangaId':toReturn['manga'] = data[key] ? Number(data[key]) : null;
-                   break;
                default:
            }
        });

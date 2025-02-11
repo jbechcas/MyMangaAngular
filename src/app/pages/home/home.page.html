@@ -14,7 +14,6 @@
     </ion-row>
   </ion-grid>
 
-  <!-- Modal del manga -->
   <ion-modal 
     [isOpen]="selectedManga !== null" 
     (didDismiss)="selectedManga = null" 
@@ -27,7 +26,7 @@
               <ion-icon name="arrow-back-outline" size="large"></ion-icon>
             </ion-button>
           </ion-buttons>
-          <ion-title>{{selectedManga?.title}}</ion-title>
+          <ion-title>{{selectedManga?.title | formatoTitulo}}</ion-title>
         </ion-toolbar>
       </ion-header>
 
@@ -37,7 +36,7 @@
             <img [src]="selectedManga.picture?.url || 'assets/placeholder-manga.jpg'" [alt]="selectedManga.title"/>
           </div>
           <div class="manga-detail-info">
-            <h2>{{selectedManga.title}}</h2>
+            <h2>{{selectedManga.title | formatoTitulo}}</h2>
             <p class="manga-description">{{selectedManga.description || 'Sin descripción disponible'}}</p>
             
             <div class="manga-actions">

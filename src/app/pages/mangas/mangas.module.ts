@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { MangasPageRoutingModule } from './mangas-routing.module';
 
 import { MangasPage } from './mangas.page';
+import { SharedModule } from "../../shared/shared.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MangasPageRoutingModule
-  ],
+    MangasPageRoutingModule,
+    SharedModule
+],
   declarations: [MangasPage]
 })
 export class MangasPageModule {}

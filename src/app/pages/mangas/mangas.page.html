@@ -18,7 +18,7 @@
                 <img [src]="manga.picture?.url || '/assets/placeholder-manga.jpg'" [alt]="manga.title"/>
               </div>
               <div class="manga-text">
-                <h3>{{manga.title}}</h3>
+                <h3>{{manga.title | formatoTitulo}}</h3>
                 <p>{{manga.description}}</p>
               </div>
             </div>

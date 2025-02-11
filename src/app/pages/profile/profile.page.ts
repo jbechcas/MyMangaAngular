@@ -43,7 +43,6 @@ profilePicture: any;
     try {
       const user = await this.authService.getCurrentUser();
       if (user) {
-        // Get person directly by user ID without pagination
         this.person = await lastValueFrom(this.peopleService.getByUserId(user.id));
         
         if (this.person) {
@@ -100,7 +99,6 @@ profilePicture: any;
         });
         await toast.present();
         
-        // Reset form dirty state after successful save
         this.formGroup.markAsPristine();
       } catch (error) {
         console.error(error);

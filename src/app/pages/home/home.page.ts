@@ -46,7 +46,6 @@ export class HomePage implements OnInit {
   loadMangaChapters(mangaId: string) {
     this.chapterSvc.getAll(-1, 100).subscribe({
       next: (response: any) => {
-        // Filtramos los capítulos que pertenecen a este manga
         this.mangaChapters = response.filter((chapter: Chapter) => 
           chapter.mangaId === mangaId
         );
