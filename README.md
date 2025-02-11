@@ -23,4 +23,4 @@
 
 ## Video de presentación
 
-[![Ver video en YouTube](https://www.youtube.com/watch?v=CiRkiIo0b20)
+**[Ver video en YouTube](https://www.youtube.com/watch?v=CiRkiIo0b20)**
