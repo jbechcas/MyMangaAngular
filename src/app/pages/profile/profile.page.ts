@@ -17,6 +17,7 @@ export class ProfilePage implements OnInit {
   genders: string[] = ['Masculino', 'Femenino', 'Otros'];
   formGroup: FormGroup;
   person?: Person | null;
+profilePicture: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,8 +32,6 @@ export class ProfilePage implements OnInit {
       name: ['', [Validators.required]],
       surname: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      gender: ['', [Validators.required]],
-      groupId: [null, []],
       picture: ['']
     });
   }

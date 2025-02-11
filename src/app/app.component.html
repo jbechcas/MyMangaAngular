@@ -30,7 +30,7 @@
             {{ (authSvc.user$ | async)?.username}}
           </ion-text>
           <ion-avatar *ngIf="authSvc.authenticated$ | async" class="profile-avatar">
-            <img [src]="profilePicture" alt="Avatar">
+            <img src="../assets/img/profile.png" alt="Avatar">
           </ion-avatar>
         </ion-button>
       

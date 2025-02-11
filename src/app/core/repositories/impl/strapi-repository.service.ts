@@ -58,7 +58,7 @@ export class StrapiRepositoryService<T extends Model> extends BaseRepositoryHttp
       case 'chapters':
         return 'populate=manga';
       case 'people':
-        return 'populate=user,group,picture';
+        return 'populate=user';
       case 'mangas':
         return 'populate=picture,chapter';
       default:
