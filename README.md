@@ -20,3 +20,7 @@
 
    ```bash
    git clone https://github.com/jbechcas/MyMangaAngular.git
+
+## Video de presentación
+
+[![Ver video en YouTube](https://www.youtube.com/watch?v=tu_codigo_de_video)
