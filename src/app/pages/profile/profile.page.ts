@@ -14,7 +14,6 @@ import { PeopleService } from 'src/app/core/services/impl/people.service';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
-  genders: string[] = ['Masculino', 'Femenino', 'Otros'];
   formGroup: FormGroup;
   person?: Person | null;
 profilePicture: any;
@@ -81,14 +80,7 @@ profilePicture: any;
           if (this.formGroup.get(key)?.dirty) {
             changedValues[key as keyof Person] = this.formGroup.get(key)?.value;
           }
-        });
-
-        if (changedValues.picture) {
-          const base64Response = await fetch(changedValues.picture);
-          const blob = await base64Response.blob();
-          const uploadedBlob = await lastValueFrom(this.mediaService.upload(blob));
-          changedValues.picture = uploadedBlob[0];
-        }
+        })
 
         await lastValueFrom(this.peopleService.update(this.person.id, changedValues));
 
@@ -126,7 +118,4 @@ profilePicture: any;
     return this.formGroup.controls['email'];
   }
 
-  get gender() {
-    return this.formGroup.controls['gender'];
-  }
 }

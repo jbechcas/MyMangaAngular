@@ -8,8 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { 
   AuthenticationServiceFactory, 
   AuthMappingFactory, 
-  GroupsMappingFactory, 
-  GroupsRepositoryFactory, 
   MediaServiceFactory, 
   PeopleMappingFactory, 
   PeopleRepositoryFactory,
@@ -26,9 +24,6 @@ import {
   AUTH_SIGN_IN_API_URL_TOKEN, 
   AUTH_SIGN_UP_API_URL_TOKEN, 
   BACKEND_TOKEN, 
-  GROUPS_API_URL_TOKEN, 
-  GROUPS_REPOSITORY_MAPPING_TOKEN, 
-  GROUPS_RESOURCE_NAME_TOKEN, 
   MANGA_API_URL_TOKEN,
   MANGA_RESOURCE_NAME_TOKEN,
   PEOPLE_API_URL_TOKEN, 
@@ -40,14 +35,9 @@ import {
   UPLOAD_API_URL_TOKEN 
 } from './core/repositories/repository.tokens';
 import { provideHttpClient } from '@angular/common/http';
-import { PeopleLocalStorageMapping } from './core/repositories/impl/people-mapping-local-storage.service';
-import { PeopleMappingJsonServer } from './core/repositories/impl/people-mapping-json-server.service';
-import { GroupsMappingJsonServer } from './core/repositories/impl/groups-mapping-json-server.service';
-import { GroupsService } from './core/services/impl/groups.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PeopleMappingStrapi } from './core/repositories/impl/people-mapping-strapi.service';
 import { ChapterMappingStrapi } from './core/repositories/impl/chapter-mapping-strapi.service';
-import { GroupsMappingStrapi } from './core/repositories/impl/groups-mapping-strapi.service';
 import { StrapiAuthMappingService } from './core/services/impl/strapi-auth-mapping.service';
 import { StrapiAuthenticationService } from './core/services/impl/strapi-authentication.service';
 import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
@@ -94,13 +84,11 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: BACKEND_TOKEN, useValue: 'strapi' },
     
     { provide: PEOPLE_RESOURCE_NAME_TOKEN, useValue: 'people' },
-    { provide: GROUPS_RESOURCE_NAME_TOKEN, useValue: 'groups' },
     { provide: MANGA_RESOURCE_NAME_TOKEN, useValue: 'mangas' },
     { provide: CHAPTER_RESOURCE_NAME_TOKEN, useValue: 'chapters' }, 
     
     { provide: PEOPLE_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
     { provide: CHAPTER_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` }, 
-    { provide: GROUPS_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
     { provide: MANGA_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },
     
     { provide: AUTH_SIGN_IN_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/auth/local` },
@@ -109,10 +97,8 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: UPLOAD_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/upload` },
   
     PeopleMappingFactory,
-    GroupsMappingFactory,
     AuthMappingFactory,
     PeopleRepositoryFactory,
-    GroupsRepositoryFactory,
     MangaMappingFactory,
     MangaRepositoryFactory,
     ChapterMappingFactory,
@@ -121,10 +107,6 @@ export function createTranslateLoader(http: HttpClient) {
     {
       provide: 'PeopleService',
       useClass: PeopleService
-    },
-    {
-      provide: 'GroupsService',
-      useClass: GroupsService
     },
     {
       provide: 'MangaService',

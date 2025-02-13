@@ -60,12 +60,9 @@ interface PersonData {
 interface PersonAttributes {
     name: string
     surname: string
-    gender: string
-    birthdate?: string
     createdAt?: string
     updatedAt?: string
     publishedAt?: string
-    group:GroupRaw | number | null,
     user:UserRaw | number | null,
     picture:MediaRaw | number | null
 }
@@ -97,8 +94,6 @@ interface Meta {}
             data:{
                 name:data.name,
                 surname:data.surname,
-                gender: this.toGenderMapping[data.gender],
-                group:data.groupId?Number(data.groupId):null,
                 user:data.userId?Number(data.userId):null,
                 picture:data.picture?Number(data.picture):null
             }
@@ -112,10 +107,6 @@ interface Meta {}
                 case 'name': mappedData.name = data[key];
                 break;
                 case 'surname': mappedData.surname = data[key];
-                break;
-                case 'gender': mappedData.gender = this.toGenderMapping[data[key]!];
-                break;
-                case 'groupId': mappedData.group = data[key] ? Number(data[key]) : null;
                 break;
                 case 'userId': mappedData.user = data[key] ? Number(data[key]) : null;
                 break;
@@ -144,8 +135,6 @@ interface Meta {}
             id: id.toString(),
             name: attributes.name,
             surname: attributes.surname,
-            groupId: typeof attributes.group === 'object' ? attributes.group?.data?.id.toString() : undefined,
-            gender: this.fromGenderMapping[attributes.gender],
             userId: typeof attributes.user === 'object' ? attributes.user?.data?.id.toString() : undefined,
             picture: typeof attributes.picture === 'object' ? {
                 url: attributes.picture?.data?.attributes?.url,
